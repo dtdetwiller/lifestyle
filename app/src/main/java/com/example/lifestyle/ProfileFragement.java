@@ -94,7 +94,7 @@ public class ProfileFragement extends Fragment {
 
         //set up feet spinner
         List<String> feet = new ArrayList<>();
-        feet.add(0, "(ft)");
+        feet.add(0, "(feet)");
         feet.add("4");
         feet.add("5");
         feet.add("6");
@@ -106,7 +106,7 @@ public class ProfileFragement extends Fragment {
 
         //set up inches spinner
         List<String> inches = new ArrayList<>();
-        inches.add(0, "(in)");
+        inches.add(0, "(inches)");
         for (int i = 1; i <= 12; i++)
             inches.add(i + "");
         Spinner height_inches_selector = (Spinner) getView().findViewById(R.id.height_inches);
@@ -127,12 +127,10 @@ public class ProfileFragement extends Fragment {
 
         readFile();
 
-        if(first_name != "") {
+        if (first_name != "")
             first_name_text.setText(first_name);
-        }
-        if(last_name != "") {
+        if (last_name != "")
             last_name_text.setText(last_name);
-        }
         if(gender != "") {
             int sex_position = sex_adapter.getPosition(gender);
             gender_spinner.setSelection(sex_position);
@@ -168,7 +166,7 @@ public class ProfileFragement extends Fragment {
                 height_inches = height_inches_spinner.getSelectedItem().toString();
                 weight = weight_spinner.getSelectedItem().toString();
                 city = city_text.getText().toString();
-                country= country_text.getText().toString();
+                country = country_text.getText().toString();
 
                 if (first_name.matches("")) {
                     Toast.makeText(getActivity(), "Enter a first name first!", Toast.LENGTH_SHORT).show();
@@ -250,7 +248,7 @@ public class ProfileFragement extends Fragment {
     private void saveFile(String first_name, String last_name, String gender, String height_feet, String height_inches, String weight, String city, String country) {
         File directory = getActivity().getFilesDir();
         try {
-            File file = new File(directory, "ProfileName");
+            File file = new File(directory, "Profile");
             //Toast.makeText(getActivity(), "doesn't exist", Toast.LENGTH_SHORT).show();
             FileOutputStream writer = new FileOutputStream(file);
             String fileString = "first_name " + first_name + "\n";
@@ -262,6 +260,7 @@ public class ProfileFragement extends Fragment {
             fileString += "city " + city + "\n";
             fileString += "country " + country + "\n";
 
+
             writer.write(fileString.getBytes());
             writer.close();
 
@@ -271,7 +270,7 @@ public class ProfileFragement extends Fragment {
     }
 
     private void readFile() {
-        File nameFile = new File(getActivity().getFilesDir(), "ProfileName");
+        File nameFile = new File(getActivity().getFilesDir(), "Profile");
 
         if(nameFile.exists()) {
             try {
@@ -292,11 +291,16 @@ public class ProfileFragement extends Fragment {
                         height_inches = words[1];
                     else if(words[0].equals("weight"))
                         weight = words[1];
-                    else if(words[0].equals("city"))
-                        city = words[1];
-                    else if(words[0].equals("country"))
-                        country = words[1];
-
+                    else if(words[0].equals("city")) {
+                        city = "";
+                        for (int j = 1; j < words.length; j++)
+                            city = city + " " + words[j];
+                    }
+                    else if(words[0].equals("country")) {
+                        country = "";
+                        for (int j = 1; j < words.length; j++)
+                            country = country + " " + words[j];
+                    }
                     i++;
                 }
             } catch (Exception e) {

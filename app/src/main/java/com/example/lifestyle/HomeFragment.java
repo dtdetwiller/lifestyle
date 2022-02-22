@@ -20,18 +20,9 @@ import java.util.Scanner;
 public class HomeFragment extends Fragment {
 
 
-    private String first_name;
-    private String last_name;
-    private String gender;
-    private String height_feet;
-    private String height_inches;
-    private String weight;
-    private String city;
-    private String country;
-
     private Button mapsHikeButton;
     private ImageView imageView;
-    private TextView bmi_text;
+    private TextView welcomeText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,8 +41,6 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         imageView = (ImageView) view.findViewById(R.id.profile_image);
-        bmi_text = (TextView) view.findViewById(R.id.bmi_text);
-
         File imageFile = new File(getActivity().getFilesDir(), "ProfileImage.png");
 
         if (imageFile.exists()) {
@@ -63,50 +52,32 @@ public class HomeFragment extends Fragment {
             }
         }
 
-        readFile();
+        welcomeText = getView().findViewById(R.id.welcome_text);
+        File profileFile = new File(getActivity().getFilesDir(), "Profile");
 
-        if(weight != "" && height_feet != "" && height_inches != "") {
-            int height = Integer.parseInt(height_feet) * 12 + Integer.parseInt(height_inches);
-            height = height * height;
-            int bmi = Integer.parseInt(weight) / height;
-            bmi = bmi * 705;
-            bmi_text.setText("BMI: " + bmi);
-        }
-    }
+        String first_name = "";
+        String last_name = "";
 
-    private void readFile() {
-        File nameFile = new File(getActivity().getFilesDir(), "ProfileName");
+        if (profileFile.exists()) {
 
-        if(nameFile.exists()) {
             try {
-                Scanner scanner = new Scanner(nameFile);
-                int i = 0;
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    String[] words = line.split(" ");
-                    if(words[0].equals("first_name"))
-                        first_name = words[1];
-                    else if(words[0].equals("last_name"))
-                        last_name = words[1];
-                    else if(words[0].equals("gender"))
-                        gender = words[1];
-                    else if(words[0].equals("height_feet"))
-                        height_feet = words[1];
-                    else if(words[0].equals("height_inches"))
-                        height_inches = words[1];
-                    else if(words[0].equals("weight"))
-                        weight = words[1];
-                    else if(words[0].equals("city"))
-                        city = words[1];
-                    else if(words[0].equals("country"))
-                        country = words[1];
 
-                    i++;
+                Scanner scnr = new Scanner(profileFile);
+
+                while (scnr.hasNextLine()) {
+                    String line = scnr.nextLine();
+                    String[] tokens = line.split(" ");
+
+                    if (tokens[0].equals("first_name"))
+                        first_name = tokens[1];
+                    else if (tokens[0].equals("last_name"))
+                        last_name = tokens[1];
                 }
             } catch (Exception e) {
-
+                System.out.println("There was an error tring to read the Profile file.");
             }
+
+            welcomeText.setText("Welcome " + first_name + " " + last_name);
         }
     }
-
 }
