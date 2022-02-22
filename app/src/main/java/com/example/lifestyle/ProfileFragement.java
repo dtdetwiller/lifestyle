@@ -126,12 +126,11 @@ public class ProfileFragement extends Fragment {
 
         readFile();
 
-        if(first_name != "") {
+        if (first_name != "")
             first_name_text.setText(first_name);
-        }
-        if(last_name != "") {
+        if (last_name != "")
             last_name_text.setText(last_name);
-        }
+
 
         submit_button = (Button) getView().findViewById(R.id.submit_button);
         submit_button.setOnClickListener(new View.OnClickListener() {
@@ -226,7 +225,7 @@ public class ProfileFragement extends Fragment {
     private void saveFile(String first_name, String last_name, String gender, String height_feet, String height_inches, String weight, String location) {
         File directory = getActivity().getFilesDir();
         try {
-            File file = new File(directory, "ProfileName");
+            File file = new File(directory, "Profile");
             //Toast.makeText(getActivity(), "doesn't exist", Toast.LENGTH_SHORT).show();
             FileOutputStream writer = new FileOutputStream(file);
             String fileString = "first_name " + first_name + "\n";
@@ -246,7 +245,7 @@ public class ProfileFragement extends Fragment {
     }
 
     private void readFile() {
-        File nameFile = new File(getActivity().getFilesDir(), "ProfileName");
+        File nameFile = new File(getActivity().getFilesDir(), "Profile");
 
         if(nameFile.exists()) {
             try {

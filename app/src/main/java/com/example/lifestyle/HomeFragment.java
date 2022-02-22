@@ -12,14 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.File;
+import java.util.Scanner;
 
 public class HomeFragment extends Fragment {
 
 
     private Button mapsHikeButton;
     private ImageView imageView;
+    private TextView welcomeText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,34 @@ public class HomeFragment extends Fragment {
             } catch (Exception e) {
 
             }
+        }
+
+        welcomeText = getView().findViewById(R.id.welcome_text);
+        File profileFile = new File(getActivity().getFilesDir(), "Profile");
+
+        String first_name = "";
+        String last_name = "";
+
+        if (profileFile.exists()) {
+
+            try {
+
+                Scanner scnr = new Scanner(profileFile);
+
+                while (scnr.hasNextLine()) {
+                    String line = scnr.nextLine();
+                    String[] tokens = line.split(" ");
+
+                    if (tokens[0].equals("first_name"))
+                        first_name = tokens[1];
+                    else if (tokens[0].equals("last_name"))
+                        last_name = tokens[1];
+                }
+            } catch (Exception e) {
+                System.out.println("There was an error tring to read the Profile file.");
+            }
+
+            welcomeText.setText("Welcome " + first_name + " " + last_name);
         }
     }
 }

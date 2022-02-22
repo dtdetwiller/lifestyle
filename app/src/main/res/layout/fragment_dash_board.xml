@@ -16,10 +16,36 @@
         android:textStyle="bold" />
 
     <Button
+        android:id="@+id/weather_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Todays Weather"
+        android:height="64dp"
+        android:layout_above="@+id/hike_button"
+        android:layout_centerInParent="true"/>
+
+    <Button
         android:id="@+id/hike_button"
         android:layout_width="wrap_content"
         android:layout_height="64dp"
         android:layout_centerInParent="true"
         android:text="Hikes Nearby" />
+
+    <Button
+        android:id="@+id/bmi_button"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:layout_below="@id/hike_button"
+        android:layout_centerInParent="true"
+        android:text="Calculate BMI" />
+
+    <TextView
+        android:id="@+id/bmi_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textSize="32dp"
+        android:layout_below="@id/bmi_button"
+        android:text=""/>
 
 </RelativeLayout>
