@@ -46,8 +46,6 @@ public class ProfileFragement extends Fragment {
 
     Bitmap thumbnailImage;
 
-    String[] sexes = {"Male", "Female", "Other"};
-
     // The ImageView that holds the profile pic
     ImageView mIvPic;
 
@@ -58,7 +56,9 @@ public class ProfileFragement extends Fragment {
     private Spinner height_feet_spinner;
     private Spinner height_inches_spinner;
     private Spinner weight_spinner;
-    private EditText location_text;
+    private EditText city_text;
+    private EditText country_text;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,13 +71,14 @@ public class ProfileFragement extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        first_name_text = (EditText) view.findViewById(R.id.first_name);
-        last_name_text = (EditText) view.findViewById(R.id.last_name);
-        gender_spinner = (Spinner) view.findViewById(R.id.gender_select);
-        height_feet_spinner = (Spinner) view.findViewById(R.id.height_feet);
-        height_inches_spinner = (Spinner) view.findViewById(R.id.height_inches);
-        weight_spinner = (Spinner) view.findViewById(R.id.weight_select);
-        location_text = (EditText) view.findViewById(R.id.location);
+        first_name_text = view.findViewById(R.id.first_name);
+        last_name_text = view.findViewById(R.id.last_name);
+        gender_spinner =  view.findViewById(R.id.gender_select);
+        height_feet_spinner = view.findViewById(R.id.height_feet);
+        height_inches_spinner = view.findViewById(R.id.height_inches);
+        weight_spinner = view.findViewById(R.id.weight_select);
+        city_text = view.findViewById(R.id.city);
+        country_text = view.findViewById(R.id.country);
 
         //set up sex spinner
         List<String> sexes = new ArrayList<>();
@@ -86,13 +87,13 @@ public class ProfileFragement extends Fragment {
         sexes.add("Female");
         sexes.add("Other");
         Spinner sexSelector = (Spinner) getView().findViewById(R.id.gender_select);
-        ArrayAdapter<String> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, sexes);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sexSelector.setAdapter(adapter);
+        ArrayAdapter<String> sex_adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, sexes);
+        sex_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sexSelector.setAdapter(sex_adapter);
 
-        //set up sex spinner
+        //set up feet spinner
         List<String> feet = new ArrayList<>();
-        feet.add(0, "feet");
+        feet.add(0, "(feet)");
         feet.add("4");
         feet.add("5");
         feet.add("6");
@@ -101,6 +102,27 @@ public class ProfileFragement extends Fragment {
         ArrayAdapter<String> feet_adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, feet);
         feet_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         height_feet_selector.setAdapter(feet_adapter);
+
+        //set up inches spinner
+        List<String> inches = new ArrayList<>();
+        inches.add(0, "(inches)");
+        for (int i = 1; i <= 12; i++)
+            inches.add(i + "");
+        Spinner height_inches_selector = (Spinner) getView().findViewById(R.id.height_inches);
+        ArrayAdapter<String> inches_adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, inches);
+        inches_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        height_inches_selector.setAdapter(inches_adapter);
+
+        //set up weight spinner
+        List<String> weightArr = new ArrayList<>();
+        weightArr.add(0, "(lbs)");
+        for (int i = 45; i <= 300; i++)
+            weightArr.add(i + "");
+        Spinner weight_selector = (Spinner) getView().findViewById(R.id.weight_select);
+        ArrayAdapter<String> weight_adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, weightArr);
+        weight_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        weight_selector.setAdapter(weight_adapter);
+
 
         readFile();
 
@@ -118,11 +140,11 @@ public class ProfileFragement extends Fragment {
                 first_name = first_name_text.getText().toString();
                 last_name = last_name_text.getText().toString();
                 gender = gender_spinner.getSelectedItem().toString();
-//                height_feet = height_feet_spinner.getSelectedItem().toString();
-//                height_inches = height_inches_spinner.getSelectedItem().toString();
-//                height_inches = height_inches_spinner.getSelectedItem().toString();
-//                weight = weight_spinner.getSelectedItem().toString();
-//                location = location_text.getText().toString();
+                height_feet = height_feet_spinner.getSelectedItem().toString();
+                height_inches = height_inches_spinner.getSelectedItem().toString();
+                height_inches = height_inches_spinner.getSelectedItem().toString();
+                weight = weight_spinner.getSelectedItem().toString();
+                location = city_text.getText().toString() + ", " + country_text.getText().toString();
 
                 if (first_name.matches("")) {
                     Toast.makeText(getActivity(), "Enter a first name first!", Toast.LENGTH_SHORT).show();
