@@ -37,7 +37,8 @@ public class ProfileFragement extends Fragment {
     private String height_feet;
     private String height_inches;
     private String weight;
-    private String location;
+    private String city;
+    private String country;
 
     private Button submit_button;
     private Button picture_button;
@@ -93,7 +94,7 @@ public class ProfileFragement extends Fragment {
 
         //set up feet spinner
         List<String> feet = new ArrayList<>();
-        feet.add(0, "(feet)");
+        feet.add(0, "(ft)");
         feet.add("4");
         feet.add("5");
         feet.add("6");
@@ -105,7 +106,7 @@ public class ProfileFragement extends Fragment {
 
         //set up inches spinner
         List<String> inches = new ArrayList<>();
-        inches.add(0, "(inches)");
+        inches.add(0, "(in)");
         for (int i = 1; i <= 12; i++)
             inches.add(i + "");
         Spinner height_inches_selector = (Spinner) getView().findViewById(R.id.height_inches);
@@ -132,6 +133,28 @@ public class ProfileFragement extends Fragment {
         if(last_name != "") {
             last_name_text.setText(last_name);
         }
+        if(gender != "") {
+            int sex_position = sex_adapter.getPosition(gender);
+            gender_spinner.setSelection(sex_position);
+        }
+        if(height_feet != "") {
+            int feet_position = feet_adapter.getPosition(height_feet);
+            height_feet_spinner.setSelection(feet_position);
+        }
+        if(height_inches != "") {
+            int inches_position = inches_adapter.getPosition(height_inches);
+            height_inches_spinner.setSelection(inches_position);
+        }
+        if(weight != "") {
+            int weight_postion = weight_adapter.getPosition(weight);
+            weight_spinner.setSelection(weight_postion);
+        }
+        if(city != "") {
+            city_text.setText(city);
+        }
+        if(country != "") {
+            country_text.setText(country);
+        }
 
         submit_button = (Button) getView().findViewById(R.id.submit_button);
         submit_button.setOnClickListener(new View.OnClickListener() {
@@ -144,7 +167,8 @@ public class ProfileFragement extends Fragment {
                 height_inches = height_inches_spinner.getSelectedItem().toString();
                 height_inches = height_inches_spinner.getSelectedItem().toString();
                 weight = weight_spinner.getSelectedItem().toString();
-                location = city_text.getText().toString() + ", " + country_text.getText().toString();
+                city = city_text.getText().toString();
+                country= country_text.getText().toString();
 
                 if (first_name.matches("")) {
                     Toast.makeText(getActivity(), "Enter a first name first!", Toast.LENGTH_SHORT).show();
@@ -153,7 +177,7 @@ public class ProfileFragement extends Fragment {
                     Toast.makeText(getActivity(), "Enter a last name first!", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    saveFile(first_name, last_name, gender, height_feet, height_inches, weight, location);
+                    saveFile(first_name, last_name, gender, height_feet, height_inches, weight, city, country);
                 }
             }
         });
@@ -223,7 +247,7 @@ public class ProfileFragement extends Fragment {
         return false;
     }
 
-    private void saveFile(String first_name, String last_name, String gender, String height_feet, String height_inches, String weight, String location) {
+    private void saveFile(String first_name, String last_name, String gender, String height_feet, String height_inches, String weight, String city, String country) {
         File directory = getActivity().getFilesDir();
         try {
             File file = new File(directory, "ProfileName");
@@ -235,7 +259,8 @@ public class ProfileFragement extends Fragment {
             fileString += "height_feet " + height_feet + "\n";
             fileString += "height_inches " + height_inches + "\n";
             fileString += "weight " + weight + "\n";
-            fileString += "location " + location + "\n";
+            fileString += "city " + city + "\n";
+            fileString += "country " + country + "\n";
 
             writer.write(fileString.getBytes());
             writer.close();
@@ -267,8 +292,10 @@ public class ProfileFragement extends Fragment {
                         height_inches = words[1];
                     else if(words[0].equals("weight"))
                         weight = words[1];
-                    else if(words[0].equals("location"))
-                        location = words[1];
+                    else if(words[0].equals("city"))
+                        city = words[1];
+                    else if(words[0].equals("country"))
+                        country = words[1];
 
                     i++;
                 }

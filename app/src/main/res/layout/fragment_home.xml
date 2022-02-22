@@ -7,6 +7,7 @@
 
 
     <TextView
+        android:id="@+id/home_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -23,7 +24,13 @@
         android:layout_marginTop="0dp"
         android:layout_marginEnd="0dp" />
 
-
+    <TextView
+        android:id="@+id/bmi_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/home_text"
+        android:text="BMI: " />
 
 
 </RelativeLayout>
