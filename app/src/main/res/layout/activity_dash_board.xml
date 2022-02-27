@@ -1,18 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".DashBoard">
 
-    <fragment
-        android:id="@+id/fragment"
-        android:name="com.example.lifestyle.DashBoardFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight=".5"
+        android:text="Dashboard"
+        android:textSize="40dp" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/fl_frag_fitness_goals"
+        android:layout_weight="1"
+        />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/fl_frag_bmi"
+        android:layout_weight="1"
+        />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/fl_frag_weather"
+        android:layout_weight="1"
+        />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/fl_frag_hikes"
+        android:layout_weight="1"
+        />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/fl_frag_bottom"
+        android:layout_weight="1"
+        />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -26,4 +63,4 @@
 
 
 
-</RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DashboardFitnessGoalsFragment">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="15dp">
+
+        <TextView
+            android:id="@+id/hikes_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fitness Goals"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Goal: "
+            android:layout_below="@+id/hikes_title_text"
+            android:textSize="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            />
+
+        <Button
+            android:id="@+id/update_goals_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="Update" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

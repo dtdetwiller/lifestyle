@@ -18,6 +18,21 @@ public class DashBoard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
 
+        // BMI fragment
+        DashboardBMIFragment dashboardBMIFragment = new DashboardBMIFragment();
+        DashboardHikesFragment dashboardHikesFragment = new DashboardHikesFragment();
+        DashboardFitnessGoalsFragment dashboardFitnessGoalsFragment = new DashboardFitnessGoalsFragment();
+        DashboardWeatherFragment dashboardWeatherFragment = new DashboardWeatherFragment();
+
+        // Replace the bmi fragment container
+        FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction();
+        fTrans.replace(R.id.fl_frag_bmi, dashboardBMIFragment, "frag_bmi");
+        fTrans.replace(R.id.fl_frag_hikes, dashboardHikesFragment, "frag_hikes");
+        fTrans.replace(R.id.fl_frag_fitness_goals, dashboardFitnessGoalsFragment, "frag_fitness_goals");
+        fTrans.replace(R.id.fl_frag_weather, dashboardWeatherFragment, "frag_weather");
+        fTrans.commit();
+
+
         // Initialize and Assign Variable
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
