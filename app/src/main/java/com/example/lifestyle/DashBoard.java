@@ -8,6 +8,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.lifestyle.dashboardfragments.DashboardBMIFragment;
+import com.example.lifestyle.dashboardfragments.DashboardFitnessGoalsFragment;
+import com.example.lifestyle.dashboardfragments.DashboardHikesFragment;
+import com.example.lifestyle.dashboardfragments.DashboardMainFragment;
+import com.example.lifestyle.dashboardfragments.DashboardWeatherFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -18,18 +23,10 @@ public class DashBoard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
 
-        // BMI fragment
-        DashboardBMIFragment dashboardBMIFragment = new DashboardBMIFragment();
-        DashboardHikesFragment dashboardHikesFragment = new DashboardHikesFragment();
-        DashboardFitnessGoalsFragment dashboardFitnessGoalsFragment = new DashboardFitnessGoalsFragment();
-        DashboardWeatherFragment dashboardWeatherFragment = new DashboardWeatherFragment();
+        DashboardMainFragment dashboardMainFragment = new DashboardMainFragment();
 
-        // Replace the bmi fragment container
         FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction();
-        fTrans.replace(R.id.fl_frag_bmi, dashboardBMIFragment, "frag_bmi");
-        fTrans.replace(R.id.fl_frag_hikes, dashboardHikesFragment, "frag_hikes");
-        fTrans.replace(R.id.fl_frag_fitness_goals, dashboardFitnessGoalsFragment, "frag_fitness_goals");
-        fTrans.replace(R.id.fl_frag_weather, dashboardWeatherFragment, "frag_weather");
+        fTrans.replace(R.id.fl_frag_dashboard, dashboardMainFragment, "frag_dashboard");
         fTrans.commit();
 
 
@@ -57,5 +54,6 @@ public class DashBoard extends AppCompatActivity {
                 return false;
             }
         });
+
     }
 }
