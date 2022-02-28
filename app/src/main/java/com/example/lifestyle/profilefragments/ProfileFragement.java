@@ -99,7 +99,7 @@ public class ProfileFragement extends Fragment {
 
         //set up feet spinner
         List<String> feet = new ArrayList<>();
-        feet.add(0, "(feet)");
+        feet.add(0, "ft");
         feet.add("4");
         feet.add("5");
         feet.add("6");
@@ -111,7 +111,7 @@ public class ProfileFragement extends Fragment {
 
         //set up inches spinner
         List<String> inches = new ArrayList<>();
-        inches.add(0, "(inches)");
+        inches.add(0, "in");
         for (int i = 1; i <= 12; i++)
             inches.add(i + "");
         Spinner height_inches_selector = (Spinner) getView().findViewById(R.id.height_inches);
@@ -121,7 +121,7 @@ public class ProfileFragement extends Fragment {
 
         //set up weight spinner
         List<String> weightArr = new ArrayList<>();
-        weightArr.add(0, "(lbs)");
+        weightArr.add(0, "lbs");
         for (int i = 45; i <= 300; i++)
             weightArr.add(i + "");
         Spinner weight_selector = (Spinner) getView().findViewById(R.id.weight_select);
@@ -181,8 +181,9 @@ public class ProfileFragement extends Fragment {
                 }
                 else {
                     saveFile(first_name, last_name, gender, height_feet, height_inches, weight, city, country);
+                    ((Profile) getActivity()).profileToPage();
                 }
-                ((Profile) getActivity()).profileToPage();
+
             }
         });
 

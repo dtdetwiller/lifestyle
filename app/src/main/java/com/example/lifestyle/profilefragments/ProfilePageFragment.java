@@ -68,21 +68,27 @@ public class ProfilePageFragment extends Fragment {
 
         readFile();
 
+        edit_profile = (Button) view.findViewById(R.id.edit_profile);
+
         name_view = (TextView) view.findViewById(R.id.name_view);
-        if(first_name != "") {
+        if(first_name != null) {
             name_view.setText(first_name + " " + last_name + " (" + gender + ")");
         }
+        else{
+            name_view.setText("Not Signed In");
+            edit_profile.setText("Create Profile");
+        }
         body_view = (TextView) view.findViewById(R.id.body_view);
-        if(height_feet != "") {
+        if(height_feet != null) {
             body_view.setText(height_feet + "'" + height_inches + " ");
         }
         location_view = (TextView) view.findViewById(R.id.location);
-        if(city != "") {
+        if(city != null) {
             location_view.setText(city);
         }
 
 
-        edit_profile = (Button) view.findViewById(R.id.edit_profile);
+
         edit_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
