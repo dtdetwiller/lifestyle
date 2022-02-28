@@ -61,7 +61,7 @@ public class ProfilePageFragment extends Fragment {
             try {
                 profile_picture.setImageDrawable(Drawable.createFromPath(imageFile.toString()));
 
-            } catch (Exception e) {
+            } catch (Exception e)  {
 
             }
         }
