@@ -2,12 +2,15 @@ package com.example.lifestyle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.lifestyle.dashboardfragments.DashboardMainFragment;
 import com.example.lifestyle.homefragments.HomeFragment;
 import com.example.lifestyle.profilefragments.ProfilePageFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -50,5 +53,11 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentManager.beginTransaction().replace(R.id.fragment_container, HomeFragment).commit();
 
+
     }
+    //not working atm
+//    public void fitnessGoalstoDashBoard() {
+//       startActivity(new Intent(getApplicationContext(), DashBoard.class));
+//       overridePendingTransition(0,0);
+//    }
 }

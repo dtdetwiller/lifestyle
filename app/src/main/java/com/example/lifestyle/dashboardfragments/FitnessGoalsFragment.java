@@ -16,6 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.example.lifestyle.R;
+import com.example.lifestyle.MainActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -96,6 +97,9 @@ public class FitnessGoalsFragment extends Fragment {
                 weightGoal = weightGoalRadioButton.getText().toString();
 
                 SaveFile();
+
+                //trying to get the submit button to go back to dashboard but it wont work
+                //((MainActivity)getActivity()).fitnessGoalstoDashBoard();
             }
         });
 
