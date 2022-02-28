@@ -121,6 +121,9 @@ public class HomeFragment extends Fragment {
 
         ReadFile();;
 
+        if (!poundsPerWeek.matches("-?\\d+"))
+            poundsPerWeek = "0";
+
         if (!weightGoal.equals("") && !poundsPerWeek.equals("")) {
             if (weightGoal.equals("Maintain")) {
                 String goal = "Fitness Goal: Maintain current weight";
@@ -147,6 +150,9 @@ public class HomeFragment extends Fragment {
      * This method calculates the calories the user needs to meet their goal.
      */
     private void CalculateCalories(double BMR) {
+        if (!poundsPerWeek.matches("-?\\d+"))
+            poundsPerWeek = "0";
+
         int pounds = Integer.valueOf(poundsPerWeek);
 
         if (activityLevel.equals("Sedentary")) {
@@ -179,6 +185,16 @@ public class HomeFragment extends Fragment {
      */
     public double CalculateBMR()
     {
+        if (!heightInches.matches("-?\\d+"))
+            heightInches = "0";
+        if (!heightFeet.matches("-?\\d+"))
+            heightFeet = "0";
+        if (!weight.matches("-?\\d+"))
+            weight = "0";
+        if (!age.matches("-?\\d+"))
+            age = "0";
+
+
         double bmr = 0.0;
         int totalInches = (Integer.valueOf(heightFeet) * 12) + Integer.valueOf(heightInches);
         int lbs = Integer.valueOf(weight);
