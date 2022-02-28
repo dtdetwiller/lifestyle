@@ -93,6 +93,7 @@ public class ProfilePageFragment extends Fragment {
     }
 
     private void readFile() {
+
         File nameFile = new File(getActivity().getFilesDir(), "Profile");
 
         if(nameFile.exists()) {

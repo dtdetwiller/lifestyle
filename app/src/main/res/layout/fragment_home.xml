@@ -6,38 +6,74 @@
     tools:context=".homefragments.HomeFragment">
 
 
-    <TextView
-        android:id="@+id/welcome_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
-        android:text="Welcome"
-        android:textSize="25dp"
-        android:textStyle="bold" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp">
 
-    <TextView
-        android:id="@+id/caloriesToEatToLoseorGainWeight"
-        android:layout_width="289dp"
-        android:layout_height="291dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="57dp"
-        android:layout_marginEnd="119dp"
-        android:text="example so i can see"
-        android:textSize="25dp" />
+        <TextView
+            android:id="@+id/welcome_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="33dp"
+            android:text="Welcome"
+            android:textSize="25dp"
+            android:textStyle="bold" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_image"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="21dp" />
+        <TextView
+            android:id="@+id/h_fitness_goal_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_image"
+            android:layout_marginTop="15dp"
+            android:text="Fitness Goal: "
+            android:textSize="25dp" />
 
+        <TextView
+            android:id="@+id/warning_fitness_goals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/h_fitness_goal_text"
+            android:text="(More than 2lbs/week is dangerous)"
+            android:textColor="#FF0000" />
+
+        <TextView
+            android:id="@+id/h_BMR_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/h_fitness_goal_text"
+            android:layout_marginTop="15dp"
+            android:text="BMR: "
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/h_calories_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/h_BMR_text"
+            android:layout_marginTop="15dp"
+            android:text="Calories Needed to Meet Goal: "
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/warning_calories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/h_calories_text"
+            android:text="(Eating less than 1200cal/day is dangerous)"
+            android:textColor="#FF0000" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

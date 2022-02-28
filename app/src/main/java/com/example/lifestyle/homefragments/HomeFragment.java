@@ -23,13 +23,16 @@ import java.util.Scanner;
 public class HomeFragment extends Fragment {
 
 
-    private Button mapsHikeButton;
     private ImageView imageView;
     private TextView welcomeText;
-    private TextView calorieField;
+    private TextView fitnessGoalText;
+    private TextView bmrText;
+    private TextView caloriesNeededText;
+    private TextView fitnessGoalWarning;
+    private TextView calorieWarning;
+
 
     private String first_name = "";
-    private String last_name = "";
     private String activityLevel = "";
     private int caloriesToEat;
     private String weightGoal = "";
@@ -72,17 +75,78 @@ public class HomeFragment extends Fragment {
         }
 
         welcomeText = getView().findViewById(R.id.welcome_text);
-        calorieField = getView().findViewById(R.id.caloriesToEatToLoseorGainWeight);
-        welcomeText.setText("Welcome " + first_name + " " + last_name);
+        welcomeText.setText("Welcome " + first_name);
+
+        fitnessGoalText = view.findViewById(R.id.h_fitness_goal_text);
+        bmrText = view.findViewById(R.id.h_BMR_text);
+        caloriesNeededText = view.findViewById(R.id.h_calories_text);
+        fitnessGoalWarning = view.findViewById(R.id.warning_fitness_goals);
+        calorieWarning = view.findViewById(R.id.warning_calories);
 
         DisplayGoals();
     }
 
-
+    /**
+     * This method displays the users fitness goals on the homepage.
+     */
     public void DisplayGoals() {
 
-        caloriesToEat = 0;
         double BMR = CalculateBMR();
+        CalculateCalories(BMR);
+        UpdateFitnessGoal();
+
+        bmrText.setText("BMR: " + BMR);
+
+        if (gender.equals("Male") && caloriesToEat < 1200) {
+            calorieWarning.setText("(Eating less than 1200cals/day is dangerous)");
+            calorieWarning.setVisibility(View.VISIBLE);
+        }
+        else if (gender.equals("Female") && caloriesToEat < 1000) {
+            calorieWarning.setText("(Eating less than 1000cals/day is dangerous)");
+            calorieWarning.setVisibility(View.VISIBLE);
+        }
+        else{
+            calorieWarning.setVisibility(View.INVISIBLE);
+        }
+
+        caloriesNeededText.setText("Calories Needed to Meet Goal: " + caloriesToEat + " per day");
+    }
+
+    /**
+     * Updates the fitness goal on the homepage.
+     */
+    private void UpdateFitnessGoal() {
+        weightGoal = "";
+        poundsPerWeek = "";
+
+        ReadFile();;
+
+        if (!weightGoal.equals("") && !poundsPerWeek.equals("")) {
+            if (weightGoal.equals("Maintain")) {
+                String goal = "Fitness Goal: Maintain current weight";
+                fitnessGoalText.setText(goal);
+            }
+            else {
+                String goal = "Fitness Goal: " + weightGoal + " " + poundsPerWeek + "lbs/week";
+                fitnessGoalText.setText(goal);
+            }
+        }
+        else {
+            String goal = "Fitness Goal: Update your fitness goals on the dashboard.";
+            fitnessGoalText.setText(goal);
+        }
+
+        if (Integer.valueOf(poundsPerWeek) > 2)
+            fitnessGoalWarning.setVisibility(View.VISIBLE);
+        else
+            fitnessGoalWarning.setVisibility(View.INVISIBLE);
+
+    }
+
+    /**
+     * This method calculates the calories the user needs to meet their goal.
+     */
+    private void CalculateCalories(double BMR) {
         int pounds = Integer.valueOf(poundsPerWeek);
 
         if (activityLevel.equals("Sedentary")) {
@@ -107,11 +171,12 @@ public class HomeFragment extends Fragment {
             weeklyCalories = weeklyCalories + calorieSurplus;
             caloriesToEat = weeklyCalories / 7;
         }
-
-        calorieField.setText("Your BMR is: " + BMR +" According to your fitness goals you want to " + weightGoal +"." +
-                "To do this you must eat " + caloriesToEat + " a week.");
     }
 
+    /**
+     * This method calculates the users BMR
+     * @return
+     */
     public double CalculateBMR()
     {
         double bmr = 0.0;
@@ -158,6 +223,24 @@ public class HomeFragment extends Fragment {
                 }
             } catch (Exception e) {
 
+            }
+
+            nameFile = new File(getActivity().getFilesDir(), "Profile");
+
+            if(nameFile.exists()) {
+                try {
+                    Scanner scanner = new Scanner(nameFile);
+                    int i = 0;
+                    while (scanner.hasNextLine()) {
+                        String line = scanner.nextLine();
+                        String[] words = line.split(" ");
+                        if(words[0].equals("first_name"))
+                            first_name = words[1];
+                        i++;
+                    }
+                } catch (Exception e) {
+
+                }
             }
         }
     }
