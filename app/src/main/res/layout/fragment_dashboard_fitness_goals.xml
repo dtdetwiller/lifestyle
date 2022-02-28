@@ -13,21 +13,21 @@
         android:layout_margin="15dp">
 
         <TextView
-            android:id="@+id/hikes_title_text"
+            android:id="@+id/fitness_goals_title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Fitness Goals"
             android:textSize="20dp" />
 
         <TextView
+            android:id="@+id/fitness_goals_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Goal: "
-            android:layout_below="@+id/hikes_title_text"
-            android:textSize="16dp"
-            android:layout_marginTop="10dp"
+            android:layout_below="@+id/fitness_goals_title_text"
             android:layout_marginLeft="15dp"
-            />
+            android:layout_marginTop="10dp"
+            android:text="Goal: "
+            android:textSize="16dp" />
 
         <Button
             android:id="@+id/update_goals_button"

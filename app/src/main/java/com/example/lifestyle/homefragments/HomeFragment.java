@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment {
         caloriestoEat = "1000";
         double BMR = calculateBMR();
         calorieField.setText("Your BMR is: " + BMR +" According to your fitness goals you want to " + weightChange +"." +
-                "To do this you must eat " +caloriestoEat + " a week.");
+                "To do this you must eat " + caloriestoEat + " a week.");
 
     }
 
@@ -124,7 +124,7 @@ public class HomeFragment extends Fragment {
 
                 }
             } catch (Exception e) {
-                System.out.println("There was an error tring to read the Profile file.");
+                System.out.println("There was an error trying to read the Profile file.");
             }
         }
 

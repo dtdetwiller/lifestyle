@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,18 +89,25 @@ public class FitnessGoalsFragment extends Fragment {
                 age = ageSpinner.getSelectedItem().toString();
                 poundsPerWeek = poundsPerWeekSpinner.getSelectedItem().toString();
 
-                int checkedID = activityRadioGroup.getCheckedRadioButtonId();
-                RadioButton activityRadioButton = view.findViewById(checkedID);
-                activityLevel = activityRadioButton.getText().toString();
+                if (activeRadioButton.isChecked())
+                    activityLevel = "Active";
+                else if (sedentaryRadioButton.isChecked())
+                    activityLevel = "Sedentary";
+                else
+                    activityLevel = "";
 
-                checkedID = weightGoalRadioGroup.getCheckedRadioButtonId();
-                RadioButton weightGoalRadioButton = view.findViewById(checkedID);
-                weightGoal = weightGoalRadioButton.getText().toString();
+                if (loseRadioButton.isChecked())
+                    weightGoal = "Lose";
+                else if (gainRadioButton.isChecked())
+                    weightGoal = "Gain";
+                else if (maintainRadioButton.isChecked())
+                    weightGoal = "Maintain";
+                else
+                    weightGoal = "";
 
                 SaveFile();
 
-                //trying to get the submit button to go back to dashboard but it wont work
-                //((MainActivity)getActivity()).fitnessGoalstoDashBoard();
+                BackToDashboard();
             }
         });
 
@@ -159,7 +167,7 @@ public class FitnessGoalsFragment extends Fragment {
         // Set up weight spinner
         List<String> weights = new ArrayList<>();
         weights.add(0, "(lbs)");
-        for (int i = 45; i <= 300; i++)
+        for (int i = 45; i <= 600; i++)
             weights.add(i + "");
         ArrayAdapter<String> weightAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, weights);
         weightAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -183,47 +191,50 @@ public class FitnessGoalsFragment extends Fragment {
         pounds.add("3");
         pounds.add("4");
         pounds.add("5");
-        ArrayAdapter<String> poundsAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, weights);
+        ArrayAdapter<String> poundsAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, pounds);
         poundsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         poundsPerWeekSpinner.setAdapter(poundsAdapter);
 
         ReadFile();
 
-        if (gender != "") {
+        if (!gender.equals("")) {
             int pos = genderAdapter.getPosition(gender);
             genderSpinner.setSelection(pos);
         }
-        if (heightInches != "") {
+        if (!heightInches.equals("")) {
             int pos = inchesAdapter.getPosition(heightInches);
             inchesSpinner.setSelection(pos);
         }
-        if (heightFeet != "") {
+        if (!heightFeet.equals("")) {
             int pos = feetAdapter.getPosition(heightFeet);
             feetSpinner.setSelection(pos);
         }
-        if (weight != "") {
-            int pos = poundsAdapter.getPosition(weight);
+        if (!weight.equals("")) {
+            int pos = weightAdapter.getPosition(weight);
             weightSpinner.setSelection(pos);
         }
-        if (age != "") {
+        if (!age.equals("")) {
             int pos = ageAdapter.getPosition(age);
             ageSpinner.setSelection(pos);
         }
-        if (activityLevel != "") {
-            if (activityLevel == "Sedentary")
+        if (!poundsPerWeek.equals("")) {
+            int pos = poundsAdapter.getPosition(poundsPerWeek);
+            poundsPerWeekSpinner.setSelection(pos);
+        }
+        if (!activityLevel.equals("")) {
+            if (activityLevel.equals("Sedentary"))
                 sedentaryRadioButton.setChecked(true);
-            else if (activityLevel == "Active")
+            else if (activityLevel.equals("Active"))
                 activeRadioButton.setChecked(true);
         }
-        if (weightGoal != "") {
-            if (weightGoal == "Gain")
+        if (!weightGoal.equals("")) {
+            if (weightGoal.equals("Gain"))
                 gainRadioButton.setChecked(true);
-            else if (weightGoal == "Lose")
+            else if (weightGoal.equals("Lose"))
                 loseRadioButton.setChecked(true);
-            else if (weightGoal == "Maintain")
+            else if (weightGoal.equals("Maintain"))
                 maintainRadioButton.setChecked(true);
         }
-
     }
 
     /**
@@ -287,5 +298,15 @@ public class FitnessGoalsFragment extends Fragment {
 
             }
         }
+    }
+
+    /**
+     * Replaces the current fragment to the main dashboard fragment.
+     */
+    private void BackToDashboard() {
+        DashboardMainFragment dashboardMainFragment = new DashboardMainFragment();
+        FragmentTransaction fTrans = getParentFragmentManager().beginTransaction();
+        fTrans.replace(R.id.fl_frag_dashboard, dashboardMainFragment, "frag_dashboard");
+        fTrans.commit();
     }
 }

@@ -123,14 +123,12 @@
                 android:id="@+id/radio_sedentary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="onRadioButtonClicked"
                 android:text="Sedentary" />
 
             <RadioButton
                 android:id="@+id/radio_active"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="onRadioButtonClicked"
                 android:text="Active" />
         </RadioGroup>
 
@@ -153,21 +151,18 @@
                 android:id="@+id/radio_lose"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="onRadioButtonClicked"
                 android:text="Lose" />
 
             <RadioButton
                 android:id="@+id/radio_gain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="onRadioButtonClicked"
                 android:text="Gain" />
 
             <RadioButton
                 android:id="@+id/radio_maintain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="onRadioButtonClicked"
                 android:text="Maintain" />
         </RadioGroup>
 
@@ -191,9 +186,8 @@
             android:id="@+id/fg_submit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Submit"
             android:layout_below="@id/fg_pounds_per_week_spinner"
-            />
+            android:text="Submit" />
 
     </RelativeLayout>
 </RelativeLayout>
