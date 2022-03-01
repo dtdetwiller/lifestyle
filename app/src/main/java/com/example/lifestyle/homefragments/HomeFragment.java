@@ -1,6 +1,7 @@
 package com.example.lifestyle.homefragments;
 
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.example.lifestyle.R;
 
@@ -21,7 +23,6 @@ import java.io.File;
 import java.util.Scanner;
 
 public class HomeFragment extends Fragment {
-
 
     private ImageView imageView;
     private TextView welcomeText;
@@ -61,18 +62,6 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ReadFile();
-
-        imageView = (ImageView) view.findViewById(R.id.profile_image);
-        File imageFile = new File(getActivity().getFilesDir(), "ProfileImage.png");
-
-        if (imageFile.exists()) {
-            try {
-                imageView.setImageDrawable(Drawable.createFromPath(imageFile.toString()));
-
-            } catch (Exception e) {
-
-            }
-        }
 
         welcomeText = getView().findViewById(R.id.welcome_text);
         welcomeText.setText("Welcome " + first_name);
