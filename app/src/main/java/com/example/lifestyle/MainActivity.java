@@ -7,8 +7,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import com.example.lifestyle.dashboardfragments.DashboardMainFragment;
 import com.example.lifestyle.homefragments.HomeFragment;
@@ -16,6 +18,8 @@ import com.example.lifestyle.profilefragments.ProfileFragement;
 import com.example.lifestyle.profilefragments.ProfilePageFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,6 +52,18 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        ImageView profilePic = (ImageView) findViewById(R.id.profile_pic);
+        File imageFile = new File(getFilesDir(), "ProfileImage.png");
+
+        if (imageFile.exists()) {
+            try {
+                profilePic.setImageDrawable(Drawable.createFromPath(imageFile.toString()));
+
+            } catch (Exception e) {
+
+            }
+        }
 
         HomeFragment HomeFragment = new HomeFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
