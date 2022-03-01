@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="15dp"
-    android:background="@android:color/white"
     tools:context=".homefragments.HomeFragment">
 
 
@@ -15,7 +14,6 @@
         android:layout_alignParentLeft="true"
         android:layout_marginTop="33dp"
         android:text="Welcome"
-        android:textColor="@android:color/black"
         android:textSize="25dp"
         android:textStyle="bold" />
 
@@ -26,7 +24,6 @@
         android:layout_below="@+id/profile_image"
         android:layout_marginTop="15dp"
         android:text="Fitness Goal: "
-        android:textColor="@android:color/black"
         android:textSize="25dp" />
 
     <TextView
@@ -43,7 +40,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/h_fitness_goal_text"
         android:layout_marginTop="15dp"
-        android:textColor="@android:color/black"
         android:text="BMR: "
         android:textSize="25dp" />
 
@@ -54,7 +50,6 @@
         android:layout_below="@id/h_BMR_text"
         android:layout_marginTop="15dp"
         android:text="Calories Needed to Meet Goal: "
-        android:textColor="@android:color/black"
         android:textSize="25dp" />
 
     <TextView
