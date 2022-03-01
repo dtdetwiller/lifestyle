@@ -59,7 +59,7 @@ public class DisplayWeatherFragment extends Fragment {
         mTvHum = getView().findViewById(R.id.HumidityView);
         mTvPress = getView().findViewById(R.id.PressureView);
         mTvTemp = getView().findViewById(R.id.TemperatureView);
-        loadWeatherData("marietta&,GA");
+        loadWeatherData("Salt&Lake&City,us");
     }
 
     private void loadWeatherData(String location){
