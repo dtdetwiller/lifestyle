@@ -15,7 +15,6 @@ import com.example.lifestyle.dashboardfragments.DashboardFitnessGoalsFragment;
 import com.example.lifestyle.dashboardfragments.DashboardHikesFragment;
 import com.example.lifestyle.dashboardfragments.DashboardMainFragment;
 import com.example.lifestyle.dashboardfragments.DashboardWeatherFragment;
-import com.example.lifestyle.dashboardfragments.weather.DisplayWeatherFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 

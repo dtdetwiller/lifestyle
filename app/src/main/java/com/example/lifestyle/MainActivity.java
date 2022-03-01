@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.lifestyle.dashboardfragments.DashboardMainFragment;
-import com.example.lifestyle.dashboardfragments.weather.DisplayWeatherFragment;
 import com.example.lifestyle.homefragments.HomeFragment;
 import com.example.lifestyle.profilefragments.ProfileFragement;
 import com.example.lifestyle.profilefragments.ProfilePageFragment;
