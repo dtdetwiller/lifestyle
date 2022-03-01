@@ -2,6 +2,8 @@ package com.example.lifestyle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
@@ -13,6 +15,7 @@ import com.example.lifestyle.dashboardfragments.DashboardFitnessGoalsFragment;
 import com.example.lifestyle.dashboardfragments.DashboardHikesFragment;
 import com.example.lifestyle.dashboardfragments.DashboardMainFragment;
 import com.example.lifestyle.dashboardfragments.DashboardWeatherFragment;
+import com.example.lifestyle.dashboardfragments.weather.DisplayWeatherFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -55,5 +58,13 @@ public class DashBoard extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void dashboardWeatherToDisplayWeather() {
+//        Fragment Displayweather = new DisplayWeatherFragment();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//        transaction.replace(R.id.fragment_container, Displayweather).commit();
     }
 }

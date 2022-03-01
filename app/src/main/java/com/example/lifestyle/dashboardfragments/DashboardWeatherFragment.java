@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.lifestyle.DashBoard;
+import com.example.lifestyle.MainActivity;
 import com.example.lifestyle.R;
 
 public class DashboardWeatherFragment extends Fragment {
@@ -42,13 +44,16 @@ public class DashboardWeatherFragment extends Fragment {
         weatherButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri weatherSearch = Uri.parse("https://www.google.com/search?q=weather+near+me");
-                //Create implicit intent
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, weatherSearch);
-                startActivity(mapIntent);
+//                Uri weatherSearch = Uri.parse("https://www.google.com/search?q=weather+near+me");
+//                //Create implicit intent
+//                Intent mapIntent = new Intent(Intent.ACTION_VIEW, weatherSearch);
+//                startActivity(mapIntent);
+
+                ((DashBoard)getActivity()).dashboardWeatherToDisplayWeather();
 
             }
         });
     }
+
 
 }
