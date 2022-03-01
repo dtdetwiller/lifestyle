@@ -3,6 +3,7 @@ package com.example.lifestyle.profilefragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -205,6 +206,18 @@ public class ProfileFragement extends Fragment {
                 startActivityForResult(cameraIntent, CAPTURE_IMAGE_REQUEST_CODE);
             }
         });
+
+        ImageView profilePic = (ImageView) view.findViewById(R.id.iv_pic);
+        File imageFile = new File(getActivity().getFilesDir(), "ProfileImage.png");
+
+        if (imageFile.exists()) {
+            try {
+                profilePic.setImageDrawable(Drawable.createFromPath(imageFile.toString()));
+
+            } catch (Exception e) {
+
+            }
+        }
 
 
     }

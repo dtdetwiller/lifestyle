@@ -195,6 +195,7 @@ public class FitnessGoalsFragment extends Fragment {
         poundsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         poundsPerWeekSpinner.setAdapter(poundsAdapter);
 
+        ReadProfile();
         ReadFile();
 
         if (!gender.equals("")) {
@@ -293,6 +294,32 @@ public class FitnessGoalsFragment extends Fragment {
                         poundsPerWeek = words[1];
                     else if(words[0].equals("weightGoal"))
                         weightGoal = words[1];
+                }
+            } catch (Exception e) {
+
+            }
+        }
+    }
+
+    private void ReadProfile() {
+        File nameFile = new File(getActivity().getFilesDir(), "Profile");
+
+        if(nameFile.exists()) {
+            try {
+                Scanner scanner = new Scanner(nameFile);
+                int i = 0;
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    String[] words = line.split(" ");
+                    if(words[0].equals("gender"))
+                        gender = words[1];
+                    else if(words[0].equals("height_feet"))
+                        heightFeet = words[1];
+                    else if(words[0].equals("height_inches"))
+                        heightInches = words[1];
+                    else if(words[0].equals("weight"))
+                        weight = words[1];
+                    i++;
                 }
             } catch (Exception e) {
 
