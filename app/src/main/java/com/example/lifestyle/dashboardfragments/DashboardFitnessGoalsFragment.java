@@ -58,7 +58,7 @@ public class DashboardFitnessGoalsFragment extends Fragment {
             public void onClick(View view) {
                 FitnessGoalsFragment fitnessGoalsFragment = new FitnessGoalsFragment();
                 FragmentTransaction fTrans = getParentFragmentManager().beginTransaction();
-                fTrans.replace(R.id.fl_frag_dashboard, fitnessGoalsFragment, "frag_fitness_goals");
+                fTrans.replace(R.id.fl_frag_dashboard, fitnessGoalsFragment);
                 fTrans.commit();
             }
         });

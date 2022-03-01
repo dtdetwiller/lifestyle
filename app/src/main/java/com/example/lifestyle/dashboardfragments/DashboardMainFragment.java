@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.lifestyle.DashBoard;
 import com.example.lifestyle.R;
 
 public class DashboardMainFragment extends Fragment {
@@ -48,7 +49,6 @@ public class DashboardMainFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
 
     }
 }
