@@ -27,16 +27,16 @@ import java.util.Scanner;
 
 public class FitnessGoalsFragment extends Fragment {
 
-    private double BMR;
-    private int calories;
-    private String gender;
-    private String heightFeet;
-    private String heightInches;
-    private String weight;
-    private String age;
-    private String activityLevel;
-    private String weightGoal;
-    private String poundsPerWeek;
+    private double BMR = 0.0;
+    private int calories = 0;
+    private String gender = "";
+    private String heightFeet = "";
+    private String heightInches = "";
+    private String weight = "";
+    private String age = "";
+    private String activityLevel = "";
+    private String weightGoal = "";
+    private String poundsPerWeek = "";
 
     private Button submitButton;
     private Spinner genderSpinner;
