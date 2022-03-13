@@ -1,6 +1,6 @@
 ### Android mobile app - lifestyle health app
 
-This is a life style heath mobile app written in Java on Android Studio.
+This is a lifestyle health mobile app written in Java on Android Studio.
 
 Features:
 - BMI Calculator
