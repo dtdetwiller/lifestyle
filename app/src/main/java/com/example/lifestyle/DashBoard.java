@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import com.example.lifestyle.dashboardfragments.DashboardBMIFragment;
 import com.example.lifestyle.dashboardfragments.DashboardFitnessGoalsFragment;
@@ -23,6 +24,11 @@ public class DashBoard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().hide();
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
         setContentView(R.layout.activity_dash_board);
 
         DashboardMainFragment dashboardMainFragment = new DashboardMainFragment();

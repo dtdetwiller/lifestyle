@@ -32,7 +32,6 @@ public class HomeFragment extends Fragment {
     private TextView fitnessGoalWarning;
     private TextView calorieWarning;
 
-
     private String first_name = "";
     private String activityLevel = "";
     private int caloriesToEat;
