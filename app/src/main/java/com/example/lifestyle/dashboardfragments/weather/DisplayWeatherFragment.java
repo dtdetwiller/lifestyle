@@ -59,7 +59,7 @@ public class DisplayWeatherFragment extends Fragment {
         mTvHum = getView().findViewById(R.id.HumidityView);
         mTvPress = getView().findViewById(R.id.PressureView);
         mTvTemp = getView().findViewById(R.id.TemperatureView);
-        loadWeatherData("marietta,GA");
+        loadWeatherData("Salt&Lake&City,us");
     }
 
     private void loadWeatherData(String location){
@@ -94,9 +94,9 @@ public class DisplayWeatherFragment extends Fragment {
                         e.printStackTrace();
                     }
                     if (mWeatherData != null) {
-                        mTvTemp.setText("" + Math.round(mWeatherData.getTemperature().getTemp() - 273.15) + " C");
-                        mTvHum.setText("" + mWeatherData.getCurrentCondition().getHumidity() + "%");
-                        mTvPress.setText("" + mWeatherData.getCurrentCondition().getPressure() + " hPa");
+                        mTvTemp.setText("Temperature: " + Math.round(mWeatherData.getTemperature().getTemp() - 273.15) + " C");
+                        mTvHum.setText("Pressure: " + mWeatherData.getCurrentCondition().getHumidity() + "%");
+                        mTvPress.setText("Humidity: " + mWeatherData.getCurrentCondition().getPressure() + " hPa");
                     }
                 }
             });
