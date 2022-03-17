@@ -113,12 +113,6 @@ public class FitnessGoalsFragment extends Fragment {
 
     }
 
-    private double CalculateBMR(int feet, int inches, int weight, int age) {
-        double BMR = 0;
-
-        return BMR;
-    }
-
     private void SetUpForm(View view) {
 
         genderSpinner = view.findViewById(R.id.fg_gender_select);

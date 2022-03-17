@@ -87,7 +87,8 @@ public class DashboardBMIFragment extends Fragment {
     /**
      * Calculates and returns the BMI
      */
-    private double calculateBMI(int feet, int inches, int weight) {
+    //made public for junit testing
+    public double calculateBMI(int feet, int inches, int weight) {
 
         int total_inches = (feet * 12) + inches;
         double meters = total_inches / 39.37;

@@ -45,12 +45,9 @@ public class DashboardHikesFragment extends Fragment {
                 //Create implicit intent
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, hikeSearch);
 
-                // if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                //Fire intent
                 startActivity(mapIntent);
-                //    Toast.makeText(getActivity(), "Hike button working!", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(getActivity(), "Its null!", Toast.LENGTH_SHORT).show();
-//                }
+
             }
         });
     }
