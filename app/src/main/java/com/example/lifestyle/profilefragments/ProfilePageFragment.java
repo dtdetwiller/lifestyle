@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +17,19 @@ import android.widget.TextView;
 
 import com.example.lifestyle.Profile;
 import com.example.lifestyle.R;
+import com.example.lifestyle.model.profileModel;
+import com.example.lifestyle.model.viewModel;
 
 import java.io.File;
 import java.util.Scanner;
 
 
 public class ProfilePageFragment extends Fragment {
+
+    private String username;
+    private profileModel profile;
+    private viewModel viewModel;
+
 
     private ImageView profile_picture;
     private TextView name_view;
@@ -53,6 +61,11 @@ public class ProfilePageFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+        viewModel = new viewModel(this.getActivity().getApplication());
+        profile = viewModel.readProfile(this.getActivity());
+
 
         profile_picture = (ImageView) view.findViewById(R.id.profile_image);
         File imageFile = new File(getActivity().getFilesDir(), "ProfileImage.png");

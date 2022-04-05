@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import com.example.lifestyle.Profile;
 import com.example.lifestyle.R;
+import com.example.lifestyle.model.profileModel;
+import com.example.lifestyle.model.viewModel;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -32,8 +34,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class ProfileFragement extends Fragment {
 
+    private profileModel profile;
 
     private String first_name;
     private String last_name;
@@ -67,16 +71,27 @@ public class ProfileFragement extends Fragment {
     private EditText country_text;
 
 
+    private viewModel vModel;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+
         return inflater.inflate(R.layout.fragment_profile_fragement, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+
+        vModel = new viewModel(this.getActivity().getApplication());
+
+        profile = vModel.readProfile(this.getActivity());
 
         first_name_text = view.findViewById(R.id.first_name);
         last_name_text = view.findViewById(R.id.last_name);
@@ -278,6 +293,17 @@ public class ProfileFragement extends Fragment {
     private void saveFile(String first_name, String last_name, String gender, String height_feet, String height_inches, String weight, String city, String country) {
         File directory = getActivity().getFilesDir();
         try {
+
+            profile.gender = gender;
+            profile.heightFeet = height_feet;
+            profile.heightInches = height_inches;
+            profile.weight = weight;
+            profile.city = city;
+            profile.country = country;
+
+            vModel.writeProfile(profile); // writes to model
+
+
             File file = new File(directory, "Profile");
             //Toast.makeText(getActivity(), "doesn't exist", Toast.LENGTH_SHORT).show();
             FileOutputStream writer = new FileOutputStream(file);
@@ -300,6 +326,7 @@ public class ProfileFragement extends Fragment {
     }
 
     private void readFile() {
+
         File nameFile = new File(getActivity().getFilesDir(), "Profile");
 
         if(nameFile.exists()) {
