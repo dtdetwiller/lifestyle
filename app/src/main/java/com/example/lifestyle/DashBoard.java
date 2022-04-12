@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,18 +17,23 @@ import com.example.lifestyle.dashboardfragments.DashboardFitnessGoalsFragment;
 import com.example.lifestyle.dashboardfragments.DashboardHikesFragment;
 import com.example.lifestyle.dashboardfragments.DashboardMainFragment;
 import com.example.lifestyle.dashboardfragments.DashboardWeatherFragment;
+import com.example.lifestyle.model.WeatherViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class DashBoard extends AppCompatActivity {
 
+    public WeatherViewModel mWeatherViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //create instance of weather view model
+        mWeatherViewModel = new WeatherViewModel(this.getApplication());
+
         getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
 
         setContentView(R.layout.activity_dash_board);
 
