@@ -1,9 +1,9 @@
 package com.example.lifestyle;
 
 import android.app.Application;
-import android.net.Network;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.MutableLiveData;
@@ -17,19 +17,19 @@ import com.example.lifestyle.dashboardfragments.weather.WeatherTableBuilder;
 
 import org.json.JSONException;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class WeatherRepository {
-    private static WeatherRepository instance;
+public class Repository {
+    private static Repository instance;
     private final MutableLiveData<WeatherData> jsonData= new MutableLiveData<WeatherData>();
+    // private String mLocation = "Salt&Lake&City,us";
     private String mLocation;
     private String mJsonString;
     private WeatherDao mWeatherDao;
 
-    private WeatherRepository(Application application){
+    private Repository(Application application){
         AppDatabase db = AppDatabase.getDatabase(application);
         mWeatherDao = db.weatherDao();
         if (mLocation != null){
@@ -37,9 +37,9 @@ public class WeatherRepository {
         }
     }
 
-    public static synchronized WeatherRepository getInstance(Application application){
+    public static synchronized Repository getInstance(Application application){
         if (instance == null){
-            instance = new WeatherRepository(application);
+            instance = new Repository(application);
         }
 
         return instance;
@@ -48,7 +48,6 @@ public class WeatherRepository {
     public void setLocation(String location){
         mLocation = location;
         loadData();
-        insert();
     }
 
     private void insert(){
@@ -81,8 +80,10 @@ public class WeatherRepository {
                 try{
                     jsonWeatherData = NetworkUtility.getDataFromURL(weatherDataURL);
 
+
                     if(jsonWeatherData != null) {
                         mJsonString = jsonWeatherData;
+                        insert();
                         postToMainThread(jsonWeatherData);
                     }
                 } catch (Exception e) {

@@ -31,7 +31,7 @@ public class DashboardWeatherFragment extends Fragment {
 
     private Button weatherButton;
     public WeatherViewModel mWeatherViewModel;
-    private DisplayWeatherFragment displayWeatherFragment;
+    public DisplayWeatherFragment displayWeatherFragment;
 
     public DashboardWeatherFragment() {
         // Required empty public constructor

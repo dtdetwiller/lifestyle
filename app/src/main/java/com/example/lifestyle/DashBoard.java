@@ -30,7 +30,8 @@ public class DashBoard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         //create instance of weather view model
-        mWeatherViewModel = new WeatherViewModel(this.getApplication());
+        // mWeatherViewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
+        mWeatherViewModel = new WeatherViewModel(getApplication());
 
         getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
