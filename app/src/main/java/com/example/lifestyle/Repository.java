@@ -14,6 +14,9 @@ import com.example.lifestyle.dashboardfragments.weather.WeatherDao;
 import com.example.lifestyle.dashboardfragments.weather.WeatherData;
 import com.example.lifestyle.dashboardfragments.weather.WeatherTable;
 import com.example.lifestyle.dashboardfragments.weather.WeatherTableBuilder;
+import com.example.lifestyle.profilefragments.ProfileDao;
+import com.example.lifestyle.profilefragments.ProfileTable;
+import com.example.lifestyle.profilefragments.profileData;
 
 import org.json.JSONException;
 
@@ -28,10 +31,13 @@ public class Repository {
     private String mLocation;
     private String mJsonString;
     private WeatherDao mWeatherDao;
+    private ProfileDao mProfileDao;
 
     private Repository(Application application){
         AppDatabase db = AppDatabase.getDatabase(application);
         mWeatherDao = db.weatherDao();
+        mProfileDao = db.profileDao();
+
         if (mLocation != null){
             loadData();
         }
@@ -50,13 +56,21 @@ public class Repository {
         loadData();
     }
 
-    private void insert(){
+    private void insertWeather(){
         if(mLocation != null && mJsonString != null){
             WeatherTable weatherTable = new WeatherTableBuilder().setLocation(mLocation).setWeatherJson(mJsonString).createWeatherTable();
             AppDatabase.databaseExecutor.execute(() -> {
                 mWeatherDao.insert(weatherTable);
             });
         }
+    }
+
+    private void insertProfile(profileData profile){
+        ProfileTable profileTable = new ProfileTable(profile.username, new profileData(""));
+        AppDatabase.databaseExecutor.execute(() -> {
+            mProfileDao.insert(profileTable);
+        });
+
     }
 
     public MutableLiveData<WeatherData> getData(){
@@ -83,7 +97,7 @@ public class Repository {
 
                     if(jsonWeatherData != null) {
                         mJsonString = jsonWeatherData;
-                        insert();
+                        insertWeather();
                         postToMainThread(jsonWeatherData);
                     }
                 } catch (Exception e) {

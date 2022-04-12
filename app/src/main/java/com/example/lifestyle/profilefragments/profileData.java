@@ -1,4 +1,4 @@
-package com.example.lifestyle.model;
+package com.example.lifestyle.profilefragments;
 
 import org.json.JSONObject;
 
@@ -49,7 +49,6 @@ public class profileData {
         } catch (Exception e) {
 
         }
-
 
         return j;
     }

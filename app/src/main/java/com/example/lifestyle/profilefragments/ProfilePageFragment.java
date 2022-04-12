@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.example.lifestyle.Profile;
 import com.example.lifestyle.R;
-import com.example.lifestyle.model.profileData;
 import com.example.lifestyle.model.profileViewModel;
 
 import java.io.File;
