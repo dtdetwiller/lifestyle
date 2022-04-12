@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import java.io.StringWriter;
 import java.util.Map;
 
-public class profileModel {
+public class profileData {
 
     public String username;
     public String firstName;
@@ -22,7 +22,7 @@ public class profileModel {
     public String age;
     public String poundsPerWeek;
 
-    public profileModel(String newUsername) {
+    public profileData(String newUsername) {
         username = newUsername;
     }
 

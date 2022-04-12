@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -23,8 +24,8 @@ import android.widget.Toast;
 
 import com.example.lifestyle.Profile;
 import com.example.lifestyle.R;
-import com.example.lifestyle.model.profileModel;
-import com.example.lifestyle.model.viewModel;
+import com.example.lifestyle.model.profileData;
+import com.example.lifestyle.model.profileViewModel;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -37,7 +38,7 @@ import java.util.Scanner;
 
 public class ProfileFragement extends Fragment {
 
-    private profileModel profile;
+    private profileData profile;
 
     private String first_name;
     private String last_name;
@@ -71,7 +72,7 @@ public class ProfileFragement extends Fragment {
     private EditText country_text;
 
 
-    private viewModel vModel;
+    private profileViewModel vModel;
 
 
     @Override
@@ -87,9 +88,7 @@ public class ProfileFragement extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-
-        vModel = new viewModel(this.getActivity().getApplication());
+        vModel = new ViewModelProvider(this).get(profileViewModel.class);
 
         profile = vModel.readProfile(this.getActivity());
 

@@ -11,12 +11,15 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
+import com.example.lifestyle.model.profileViewModel;
 import com.example.lifestyle.profilefragments.ProfileFragement;
 import com.example.lifestyle.profilefragments.ProfilePageFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class Profile extends AppCompatActivity {
+
+    public profileViewModel profileViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,7 @@ public class Profile extends AppCompatActivity {
         getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        profileViewModel = new profileViewModel(this.getApplication());
 
         setContentView(R.layout.activity_profile);
 
