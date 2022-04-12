@@ -10,15 +10,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.os.HandlerCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.lifestyle.R;
+import com.example.lifestyle.model.WeatherViewModel;
 
 import org.json.JSONException;
 
@@ -31,7 +35,6 @@ public class DisplayWeatherFragment extends Fragment {
     private TextView mTvTemp;
     private TextView mTvPress;
     private TextView mTvHum;
-    private WeatherData mWeatherData;
 
     public DisplayWeatherFragment() {
         // Required empty public constructor
@@ -41,13 +44,11 @@ public class DisplayWeatherFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_display_weather, container, false);
@@ -56,51 +57,16 @@ public class DisplayWeatherFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         mTvHum = getView().findViewById(R.id.HumidityView);
         mTvPress = getView().findViewById(R.id.PressureView);
         mTvTemp = getView().findViewById(R.id.TemperatureView);
-        loadWeatherData("Salt&Lake&City,us");
     }
 
-    private void loadWeatherData(String location){
-        new FetchWeatherTask().execute(location);
-    }
-
-    private class FetchWeatherTask{
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        Handler mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
-        public void execute(String location)
-        {
-            executorService.execute(() -> {
-                String jsonWeatherData;
-                URL weatherDataURL = NetworkUtility.buildURLFromString(location);
-                jsonWeatherData = null;
-                try{
-                    jsonWeatherData = NetworkUtility.getDataFromURL(weatherDataURL);
-                    postToMainThread(jsonWeatherData);
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
-            });
-        }
-
-        private void postToMainThread(String jsonWeatherData)
-        {
-            mainThreadHandler.post(() -> {
-                if (jsonWeatherData != null) {
-                    try {
-                        mWeatherData = JSONWeatherUtility.getWeatherData(jsonWeatherData);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    if (mWeatherData != null) {
-                        mTvTemp.setText("Temperature: " + Math.round(mWeatherData.getTemperature().getTemp() - 273.15) + " C");
-                        mTvHum.setText("Pressure: " + mWeatherData.getCurrentCondition().getHumidity() + "%");
-                        mTvPress.setText("Humidity: " + mWeatherData.getCurrentCondition().getPressure() + " hPa");
-                    }
-                }
-            });
-        }
+    public void receiveWeatherData(WeatherData weatherData){
+        mTvTemp.setText("Temperature: " + Math.round(weatherData.getTemperature().getTemp() - 273.15) + " C");
+        mTvHum.setText("Pressure: " + weatherData.getCurrentCondition().getHumidity() + "%");
+        mTvPress.setText("Humidity: " + weatherData.getCurrentCondition().getPressure() + " hPA");
     }
 }
 
