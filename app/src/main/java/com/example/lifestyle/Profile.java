@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.example.lifestyle.model.ProfileViewModel;
+import com.example.lifestyle.model.WeatherViewModel;
 import com.example.lifestyle.profilefragments.ProfileFragement;
 import com.example.lifestyle.profilefragments.ProfilePageFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -28,7 +30,7 @@ public class Profile extends AppCompatActivity {
         getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        profileViewModel = new ProfileViewModel(this.getApplication());
+        profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
 
         setContentView(R.layout.activity_profile);
 

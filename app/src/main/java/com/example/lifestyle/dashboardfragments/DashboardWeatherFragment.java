@@ -69,7 +69,7 @@ public class DashboardWeatherFragment extends Fragment {
     final Observer<WeatherData> weatherObserver = new Observer<WeatherData>() {
         @Override
         public void onChanged(@Nullable final WeatherData weatherData) {
-            //update UI when weather data changes in data base
+            //update UI when new weather data is collected
             if (weatherData != null){
                 displayWeatherFragment.receiveWeatherData(weatherData);
             }

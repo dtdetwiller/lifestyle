@@ -3,6 +3,7 @@ package com.example.lifestyle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,8 +24,8 @@ public class DashBoard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         //create instance of weather view model
-        // mWeatherViewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
-        weatherViewModel = new WeatherViewModel(getApplication());
+        weatherViewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
+        // weatherViewModel = new WeatherViewModel(getApplication());
 
         getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
