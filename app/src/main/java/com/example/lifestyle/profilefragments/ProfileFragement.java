@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 import com.example.lifestyle.Profile;
 import com.example.lifestyle.R;
-import com.example.lifestyle.model.profileViewModel;
+import com.example.lifestyle.model.ProfileViewModel;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -37,7 +37,7 @@ import java.util.Scanner;
 
 public class ProfileFragement extends Fragment {
 
-    private profileData profile;
+    private ProfileData profile;
 
     private String first_name;
     private String last_name;
@@ -71,7 +71,7 @@ public class ProfileFragement extends Fragment {
     private EditText country_text;
 
 
-    private profileViewModel vModel;
+    private ProfileViewModel vModel;
 
 
     @Override
@@ -87,7 +87,7 @@ public class ProfileFragement extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        vModel = new ViewModelProvider(this).get(profileViewModel.class);
+        vModel = new ViewModelProvider(this).get(ProfileViewModel.class);
 
         profile = vModel.readProfile(this.getActivity());
 

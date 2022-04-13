@@ -1,7 +1,6 @@
 package com.example.lifestyle.model;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -11,20 +10,24 @@ import com.example.lifestyle.Repository;
 import com.example.lifestyle.dashboardfragments.weather.WeatherData;
 
 public class WeatherViewModel extends AndroidViewModel {
-    private MutableLiveData<WeatherData> jsonData;
-    private Repository mRepository;
+    private MutableLiveData<WeatherData> jsonWeatherData;
+    private Repository repository;
 
     public WeatherViewModel(Application application){
         super(application);
-        mRepository = Repository.getInstance(application);
-        jsonData = mRepository.getData();
+        repository = Repository.getInstance(application);
+        jsonWeatherData = repository.getWeatherData();
     }
 
-    public void setLocation(String location){
-        mRepository.setLocation(location);
+    public void updateWeatherData(){
+        //hard coding location update in repository
+        repository.setLocation("Salt&Lake&City,us");
+        // possibly make setLocation private in repo if it isnt accessed from anywhere else
+
+        repository.updateWeatherData();
     }
 
-    public LiveData<WeatherData> getData(){
-        return jsonData;
+    public LiveData<WeatherData> getWeatherData(){
+        return jsonWeatherData;
     }
 }

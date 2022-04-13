@@ -3,7 +3,6 @@ package com.example.lifestyle;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.MutableLiveData;
@@ -16,7 +15,7 @@ import com.example.lifestyle.dashboardfragments.weather.WeatherTable;
 import com.example.lifestyle.dashboardfragments.weather.WeatherTableBuilder;
 import com.example.lifestyle.profilefragments.ProfileDao;
 import com.example.lifestyle.profilefragments.ProfileTable;
-import com.example.lifestyle.profilefragments.profileData;
+import com.example.lifestyle.profilefragments.ProfileData;
 
 import org.json.JSONException;
 
@@ -25,60 +24,64 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Repository {
-    private static Repository instance;
-    private final MutableLiveData<WeatherData> jsonData= new MutableLiveData<WeatherData>();
-    // private String mLocation = "Salt&Lake&City,us";
-    private String mLocation;
-    private String mJsonString;
-    private WeatherDao mWeatherDao;
-    private ProfileDao mProfileDao;
+    private static Repository repoInstance;
+    private final MutableLiveData<WeatherData> liveWeatherData = new MutableLiveData<WeatherData>();
+    private String userLocation;
+    private String jsonWeatherString;
+    private WeatherDao weatherDao;
+    private ProfileDao profileDao;
 
     private Repository(Application application){
         AppDatabase db = AppDatabase.getDatabase(application);
-        mWeatherDao = db.weatherDao();
-        mProfileDao = db.profileDao();
+        weatherDao = db.weatherDao();
+        profileDao = db.profileDao();
 
-        if (mLocation != null){
-            loadData();
+        if (userLocation != null){
+            loadWeatherData();
         }
     }
 
     public static synchronized Repository getInstance(Application application){
-        if (instance == null){
-            instance = new Repository(application);
+        if (repoInstance == null){
+            repoInstance = new Repository(application);
         }
 
-        return instance;
+        return repoInstance;
     }
 
     public void setLocation(String location){
-        mLocation = location;
-        loadData();
+        userLocation = location;
     }
 
-    private void insertWeather(){
-        if(mLocation != null && mJsonString != null){
-            WeatherTable weatherTable = new WeatherTableBuilder().setLocation(mLocation).setWeatherJson(mJsonString).createWeatherTable();
+    public void updateWeatherData(){
+        if (userLocation != null){
+            loadWeatherData();
+        }
+    }
+
+    private void insertWeatherData(){
+        if(userLocation != null && jsonWeatherString != null){
+            WeatherTable weatherTable = new WeatherTableBuilder().setLocation(userLocation).setWeatherJson(jsonWeatherString).createWeatherTable();
             AppDatabase.databaseExecutor.execute(() -> {
-                mWeatherDao.insert(weatherTable);
+                weatherDao.insert(weatherTable);
             });
         }
     }
 
-    private void insertProfile(profileData profile){
-        ProfileTable profileTable = new ProfileTable(profile.username, new profileData(""));
+    private void insertProfileData(ProfileData profile){
+        ProfileTable profileTable = new ProfileTable(profile.username, new ProfileData(""));
         AppDatabase.databaseExecutor.execute(() -> {
-            mProfileDao.insert(profileTable);
+            profileDao.insert(profileTable);
         });
 
     }
 
-    public MutableLiveData<WeatherData> getData(){
-        return jsonData;
+    public MutableLiveData<WeatherData> getWeatherData(){
+        return liveWeatherData;
     }
 
-    private void loadData(){
-        new FetchWeatherTask().execute(mLocation);
+    private void loadWeatherData(){
+        new FetchWeatherTask().execute(userLocation);
     }
 
     private class FetchWeatherTask{
@@ -96,9 +99,9 @@ public class Repository {
 
 
                     if(jsonWeatherData != null) {
-                        mJsonString = jsonWeatherData;
-                        insertWeather();
-                        postToMainThread(jsonWeatherData);
+                        jsonWeatherString = jsonWeatherData;
+                        insertWeatherData();
+                        postWeatherToMainThread(jsonWeatherData);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -106,10 +109,10 @@ public class Repository {
             });
         }
 
-        private void postToMainThread(String retrievedJsonData){
+        private void postWeatherToMainThread(String retrievedJsonData){
             mainThreadHandler.post(() -> {
                 try{
-                    jsonData.setValue(JSONWeatherUtility.getWeatherData(retrievedJsonData));
+                    liveWeatherData.setValue(JSONWeatherUtility.getWeatherData(retrievedJsonData));
                 }
                 catch (JSONException e){
                     e.printStackTrace();

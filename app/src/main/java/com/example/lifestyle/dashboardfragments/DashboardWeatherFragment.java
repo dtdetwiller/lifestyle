@@ -1,27 +1,20 @@
 package com.example.lifestyle.dashboardfragments;
 
 
-import com.example.lifestyle.dashboardfragments.DashboardMainFragment;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.lifestyle.DashBoard;
-import com.example.lifestyle.MainActivity;
 import com.example.lifestyle.R;
 import com.example.lifestyle.dashboardfragments.weather.DisplayWeatherFragment;
 import com.example.lifestyle.dashboardfragments.weather.WeatherData;
@@ -30,8 +23,9 @@ import com.example.lifestyle.model.WeatherViewModel;
 public class DashboardWeatherFragment extends Fragment {
 
     private Button weatherButton;
-    public WeatherViewModel mWeatherViewModel;
-    public DisplayWeatherFragment displayWeatherFragment;
+    public WeatherViewModel weatherViewModel;
+    public DisplayWeatherFragment displayWeatherFragment = new DisplayWeatherFragment();
+    ;
 
     public DashboardWeatherFragment() {
         // Required empty public constructor
@@ -54,25 +48,19 @@ public class DashboardWeatherFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //create the view model
-        mWeatherViewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
+        weatherViewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
 
         //Set the database observer
-        (mWeatherViewModel.getData()).observe(getViewLifecycleOwner(), weatherObserver);
+        (weatherViewModel.getWeatherData()).observe(getViewLifecycleOwner(), weatherObserver);
 
         weatherButton = getView().findViewById(R.id.weather_button);
 
         weatherButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Uri weatherSearch = Uri.parse("https://www.google.com/search?q=weather+near+me");
-//                //Create implicit intent
-//                Intent mapIntent = new Intent(Intent.ACTION_VIEW, weatherSearch);
-//                startActivity(mapIntent);
-
-                displayWeatherFragment = new DisplayWeatherFragment();
                 FragmentTransaction fTrans = getParentFragmentManager().beginTransaction();
                 fTrans.replace(R.id.fl_frag_dashboard, displayWeatherFragment);
-                loadWeatherData("Salt&Lake&City,us");
+                loadWeatherData();
                 fTrans.commit();
             }
         });
@@ -88,7 +76,7 @@ public class DashboardWeatherFragment extends Fragment {
         }
     };
 
-    public void loadWeatherData(String location){
-        mWeatherViewModel.setLocation(location);
+    public void loadWeatherData(){
+        weatherViewModel.updateWeatherData();
     }
 }

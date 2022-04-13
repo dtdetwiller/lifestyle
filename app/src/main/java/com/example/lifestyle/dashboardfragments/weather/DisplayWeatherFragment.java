@@ -35,7 +35,6 @@ public class DisplayWeatherFragment extends Fragment {
     private TextView mTvTemp;
     private TextView mTvPress;
     private TextView mTvHum;
-    public WeatherViewModel mWeatherViewModel;
 
     public DisplayWeatherFragment() {
         // Required empty public constructor
@@ -65,26 +64,11 @@ public class DisplayWeatherFragment extends Fragment {
     }
 
     public void receiveWeatherData(WeatherData weatherData){
+        Log.d("Tag", "View : " + (getView() == null));
+
         mTvTemp.setText("Temperature: " + Math.round(weatherData.getTemperature().getTemp() - 273.15) + " C");
-        mTvHum.setText("Pressure: " + weatherData.getCurrentCondition().getHumidity() + "%");
-        mTvPress.setText("Humidity: " + weatherData.getCurrentCondition().getPressure() + " hPA");
+        mTvHum.setText("Humidity: " + weatherData.getCurrentCondition().getHumidity() + "%");
+        mTvPress.setText("Pressure: " + weatherData.getCurrentCondition().getPressure() + " hPA");
     }
-
-//    public void loadWeatherData(String location){
-//        mWeatherViewModel.setLocation(location);
-//    }
-
-//    final Observer<WeatherData> weatherObserver = new Observer<WeatherData>() {
-//        @Override
-//        public void onChanged(@Nullable final WeatherData weatherData) {
-//            //update UI when weather data changes in data base
-//            if (weatherData != null){
-//                mTvTemp.setText("Temperature: " + Math.round(mWeatherData.getTemperature().getTemp() - 273.15) + " C");
-//                mTvHum.setText("Pressure: " + mWeatherData.getCurrentCondition().getHumidity() + "%");
-//                mTvPress.setText("Humidity: " + mWeatherData.getCurrentCondition().getPressure() + " hPA");
-//            }
-//        }
-//    };
-
 }
 

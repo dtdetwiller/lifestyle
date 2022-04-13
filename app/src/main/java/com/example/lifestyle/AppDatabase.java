@@ -16,25 +16,25 @@ import com.example.lifestyle.dashboardfragments.weather.WeatherTable;
 import com.example.lifestyle.dashboardfragments.weather.WeatherTableBuilder;
 import com.example.lifestyle.profilefragments.ProfileDao;
 import com.example.lifestyle.profilefragments.ProfileTable;
-import com.example.lifestyle.profilefragments.profileData;
+import com.example.lifestyle.profilefragments.ProfileData;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {WeatherTable.class, ProfileTable.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
-    private static volatile AppDatabase mInstance;
+    private static volatile AppDatabase databaseInstance;
     public abstract WeatherDao weatherDao();
     public abstract ProfileDao profileDao();
 
     static final ExecutorService databaseExecutor = Executors.newFixedThreadPool(4);
 
     static synchronized  AppDatabase getDatabase(final Context context){
-        if(mInstance == null){
-            mInstance = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "app.db").addCallback(sRoomDatabaseCallback).build();
+        if(databaseInstance == null){
+            databaseInstance = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "app.db").addCallback(sRoomDatabaseCallback).build();
         }
 
-        return mInstance;
+        return databaseInstance;
     }
 
     private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback(){
@@ -42,16 +42,16 @@ public abstract class AppDatabase extends RoomDatabase {
         public void onCreate(@NonNull SupportSQLiteDatabase db){
             super.onCreate(db);
             databaseExecutor.execute(() -> {
-                WeatherDao weatherDao = mInstance.weatherDao();
+                WeatherDao weatherDao = databaseInstance.weatherDao();
                 weatherDao.deleteAll();
                 WeatherTable weatherTable = new WeatherTableBuilder().setLocation("dummy_loc").setWeatherJson("dummy_data").createWeatherTable();
                 weatherDao.insert(weatherTable);
             });
 
             databaseExecutor.execute(() -> {
-                ProfileDao profileDao = mInstance.profileDao();
+                ProfileDao profileDao = databaseInstance.profileDao();
                 profileDao.deleteAll();
-                ProfileTable profileTable = new ProfileTable("", new profileData(""));
+                ProfileTable profileTable = new ProfileTable("", new ProfileData(""));
                 profileDao.insert(profileTable);
             });
         }
@@ -61,32 +61,32 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
                 public void onOpen(@NonNull SupportSQLiteDatabase db){
             super.onCreate(db);
-            new PopulateDbTask(mInstance).execute();
+            new PopulateDbTask(databaseInstance).execute();
         }
     };
 
     private static class PopulateDbTask{
-        private final WeatherDao mWeatherDao;
-        private final ProfileDao mProfileDao;
+        private final WeatherDao weatherDao;
+        private final ProfileDao profileDao;
 
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Handler mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
         PopulateDbTask(AppDatabase db){
-            mWeatherDao = db.weatherDao();
-            mProfileDao = db.profileDao();
+            weatherDao = db.weatherDao();
+            profileDao = db.profileDao();
         }
 
         public void execute(){
             executorService.execute(new Runnable(){
                 @Override
                 public void run(){
-                    mWeatherDao.deleteAll();
+                    weatherDao.deleteAll();
                     WeatherTable weatherTable = new WeatherTableBuilder().setLocation("dummy_loc").setWeatherJson("dummy_data").createWeatherTable();
-                    mWeatherDao.insert(weatherTable);
+                    weatherDao.insert(weatherTable);
 
-                    mProfileDao.deleteAll();
-                    ProfileTable profileTable = new ProfileTable("", new profileData(""));
-                    mProfileDao.insert(profileTable);
+                    profileDao.deleteAll();
+                    ProfileTable profileTable = new ProfileTable("", new ProfileData(""));
+                    profileDao.insert(profileTable);
                 }
             });
         }

@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.example.lifestyle.Profile;
 import com.example.lifestyle.R;
-import com.example.lifestyle.model.profileViewModel;
+import com.example.lifestyle.model.ProfileViewModel;
 
 import java.io.File;
 import java.util.Scanner;
@@ -25,8 +25,8 @@ import java.util.Scanner;
 public class ProfilePageFragment extends Fragment {
 
     private String username;
-    private profileData profile;
-    private profileViewModel profileViewModel;
+    private ProfileData profile;
+    private ProfileViewModel profileViewModel;
 
 
     private ImageView profile_picture;
@@ -61,7 +61,7 @@ public class ProfilePageFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        profileViewModel = new profileViewModel(this.getActivity().getApplication());
+        profileViewModel = new ProfileViewModel(this.getActivity().getApplication());
         profile = profileViewModel.readProfile(this.getActivity());
 
 

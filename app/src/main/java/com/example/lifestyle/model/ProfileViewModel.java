@@ -6,20 +6,20 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.example.lifestyle.profilefragments.profileData;
+import com.example.lifestyle.profilefragments.ProfileData;
 
 import org.json.JSONObject;
 
 import java.io.File;
 import java.util.Scanner;
 
-public class profileViewModel extends AndroidViewModel {
+public class ProfileViewModel extends AndroidViewModel {
 
-    public profileViewModel(@NonNull Application application) {
+    public ProfileViewModel(@NonNull Application application) {
         super(application);
     }
 
-    public profileData readProfile(Activity activity) {
+    public ProfileData readProfile(Activity activity) {
 
         String username = "";
 
@@ -38,19 +38,19 @@ public class profileViewModel extends AndroidViewModel {
             }
         }
 
-        profileData profile = new profileData(username);
+        ProfileData profile = new ProfileData(username);
 
         return profile;
     }
 
-    public void writeProfile(profileData profile) {
+    public void writeProfile(ProfileData profile) {
         JSONObject j = profile.getProfileJSON();
     }
 
-    public profileData readProfile(String username) {
+    public ProfileData readProfile(String username) {
         JSONObject j = new JSONObject(); // this will be changed to pull the json object from server
 
-        profileData profile = new profileData(username);
+        ProfileData profile = new ProfileData(username);
         try {
             profile.firstName = j.get("firstName").toString();
         }

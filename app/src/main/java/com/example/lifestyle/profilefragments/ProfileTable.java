@@ -5,8 +5,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.example.lifestyle.Profile;
-
 @Entity(tableName = "profile_table")
 public class ProfileTable
 {
@@ -56,7 +54,7 @@ public class ProfileTable
 
     public ProfileTable() {}
 
-    public ProfileTable(@NonNull String username, profileData profileData){
+    public ProfileTable(@NonNull String username, ProfileData profileData){
         this.username = username;
     }
 }

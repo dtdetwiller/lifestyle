@@ -2,28 +2,21 @@ package com.example.lifestyle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
-import com.example.lifestyle.dashboardfragments.DashboardBMIFragment;
-import com.example.lifestyle.dashboardfragments.DashboardFitnessGoalsFragment;
-import com.example.lifestyle.dashboardfragments.DashboardHikesFragment;
 import com.example.lifestyle.dashboardfragments.DashboardMainFragment;
-import com.example.lifestyle.dashboardfragments.DashboardWeatherFragment;
 import com.example.lifestyle.model.WeatherViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class DashBoard extends AppCompatActivity {
 
-    public WeatherViewModel mWeatherViewModel;
+    public WeatherViewModel weatherViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +24,7 @@ public class DashBoard extends AppCompatActivity {
 
         //create instance of weather view model
         // mWeatherViewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
-        mWeatherViewModel = new WeatherViewModel(getApplication());
+        weatherViewModel = new WeatherViewModel(getApplication());
 
         getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
