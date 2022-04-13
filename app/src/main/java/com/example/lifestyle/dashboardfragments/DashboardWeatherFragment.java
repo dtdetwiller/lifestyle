@@ -59,8 +59,8 @@ public class DashboardWeatherFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentTransaction fTrans = getParentFragmentManager().beginTransaction();
-                fTrans.replace(R.id.fl_frag_dashboard, displayWeatherFragment);
                 loadWeatherData();
+                fTrans.replace(R.id.fl_frag_dashboard, displayWeatherFragment);
                 fTrans.commit();
             }
         });
