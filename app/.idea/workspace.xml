@@ -12,13 +12,23 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7ccc55d7-ddc5-4b62-bd41-9dbdeb1abe8d" name="Default Changelist" comment="Weather almost working" />
+    <list default="true" id="7ccc55d7-ddc5-4b62-bd41-9dbdeb1abe8d" name="Default Changelist" comment="Weather almost working part 2">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/lifestyle/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/lifestyle/Repository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/lifestyle/SignIn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/lifestyle/SignIn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/lifestyle/model/ProfileViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/lifestyle/model/ProfileViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/lifestyle/profilefragments/ProfileDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/lifestyle/profilefragments/ProfileDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/lifestyle/profilefragments/ProfileFragement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/lifestyle/profilefragments/ProfileFragement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/lifestyle/profilefragments/ProfileTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/lifestyle/profilefragments/ProfileTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/lifestyle/signinfragments/SignInFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/lifestyle/signinfragments/SignInFragment.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\justi\.android\avd\Pixel_5_API_30_1.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\justi\.android\avd\Pixel_5_API_30.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -85,6 +95,8 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="android-custom-viewC:/Users/justi/OneDrive/Documents/lifestyle/gradle/caches/modules-2/files-2.1/com.google.android.material/material/1.5.0/8d3b87c7463f55053836b805e014cb238f64757a/material-1.5.0-sources.jar!/com/google/android/material/button/MaterialButton.java_MaterialButton_DIMENSIONS" value="1080&#10;1920" />
+    <property name="android-custom-viewC:/Users/justi/OneDrive/Documents/lifestyle/gradle/caches/modules-2/files-2.1/com.google.android.material/material/1.5.0/8d3b87c7463f55053836b805e014cb238f64757a/material-1.5.0-sources.jar!/com/google/android/material/button/MaterialButton.java_SELECTED" value="MaterialButton" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -188,6 +200,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
@@ -199,14 +212,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/lifestyle/dashboardfragments/weather/DisplayWeatherFragment.java</url>
-          <line>88</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/lifestyle/dashboardfragments/weather/DisplayWeatherFragment.java</url>
-          <line>75</line>
-          <option name="timeStamp" value="5" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/lifestyle/profilefragments/ProfileFragement.java</url>
+          <line>389</line>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

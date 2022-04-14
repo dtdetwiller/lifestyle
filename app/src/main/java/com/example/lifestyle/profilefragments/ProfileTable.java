@@ -56,5 +56,24 @@ public class ProfileTable
 
     public ProfileTable(@NonNull String username, ProfileData profileData){
         this.username = username;
+        try{
+            this.firstName = profileData.firstName;
+            this.lastName = profileData.lastName;
+            this.gender = profileData.gender;
+            this.weight = profileData.weight;
+            this.weightGoal = profileData.weightGoal;
+            this.activityLevel = profileData.activityLevel;
+            this.city = profileData.city;
+            this.country = profileData.country;
+            this.age = profileData.age;
+            this.poundsPerWeek = profileData.poundsPerWeek;
+            this.heightFeet = profileData.heightFeet;
+            this.heightInches = profileData.heightInches;
+        }
+        catch (Exception e)
+        {
+
+        }
+
     }
 }

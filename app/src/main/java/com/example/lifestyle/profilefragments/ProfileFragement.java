@@ -24,8 +24,10 @@ import android.widget.Toast;
 
 import com.example.lifestyle.Profile;
 import com.example.lifestyle.R;
+import com.example.lifestyle.SignIn;
 import com.example.lifestyle.model.ProfileViewModel;
 import com.example.lifestyle.model.WeatherViewModel;
+import com.example.lifestyle.signinfragments.SignInFragment;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -39,7 +41,8 @@ import java.util.Scanner;
 
 public class ProfileFragement extends Fragment {
 
-    private ProfileData profile;
+
+    public ProfileData profile;
 
     private String first_name;
     private String last_name;
@@ -80,7 +83,7 @@ public class ProfileFragement extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-
+        profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
         return inflater.inflate(R.layout.fragment_profile_fragement, container, false);
     }
 
@@ -91,7 +94,7 @@ public class ProfileFragement extends Fragment {
         profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
         weatherViewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
 
-        profile = profileViewModel.readProfile(this.getActivity());
+
 
         first_name_text = view.findViewById(R.id.first_name);
         last_name_text = view.findViewById(R.id.last_name);
@@ -189,6 +192,7 @@ public class ProfileFragement extends Fragment {
                 city = city_text.getText().toString().trim();
                 country = country_text.getText().toString().trim();
 
+
                 String cityCountry = city + "," + country.toLowerCase();
                 String location = cityCountry.replace(" ", "%20");
 
@@ -205,6 +209,18 @@ public class ProfileFragement extends Fragment {
                     ((Profile) getActivity()).profileToPage();
                 }
 
+
+                String username = readUsername();
+                ProfileData profileData = new ProfileData(username);
+                profileData.firstName = first_name;
+                profileData.lastName = last_name;
+                profileData.gender = gender;
+                profileData.heightInches = height_inches;
+                profileData.heightFeet = height_feet;
+                profileData.weight = weight;
+                profileData.city = city;
+                profileData.country = country;
+                profileViewModel.writeProfile(profileData);
             }
         });
 
@@ -334,31 +350,30 @@ public class ProfileFragement extends Fragment {
 
         File nameFile = new File(getActivity().getFilesDir(), "Profile");
 
-        if(nameFile.exists()) {
+        if (nameFile.exists()) {
             try {
                 Scanner scanner = new Scanner(nameFile);
                 int i = 0;
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
                     String[] words = line.split(" ");
-                    if(words[0].equals("first_name"))
+                    if (words[0].equals("first_name"))
                         first_name = words[1];
-                    else if(words[0].equals("last_name"))
+                    else if (words[0].equals("last_name"))
                         last_name = words[1];
-                    else if(words[0].equals("gender"))
+                    else if (words[0].equals("gender"))
                         gender = words[1];
-                    else if(words[0].equals("height_feet"))
+                    else if (words[0].equals("height_feet"))
                         height_feet = words[1];
-                    else if(words[0].equals("height_inches"))
+                    else if (words[0].equals("height_inches"))
                         height_inches = words[1];
-                    else if(words[0].equals("weight"))
+                    else if (words[0].equals("weight"))
                         weight = words[1];
-                    else if(words[0].equals("city")) {
+                    else if (words[0].equals("city")) {
                         city = "";
                         for (int j = 1; j < words.length; j++)
                             city = city + " " + words[j];
-                    }
-                    else if(words[0].equals("country")) {
+                    } else if (words[0].equals("country")) {
                         country = "";
                         for (int j = 1; j < words.length; j++)
                             country = country + " " + words[j];
@@ -370,7 +385,23 @@ public class ProfileFragement extends Fragment {
             }
         }
     }
+    private String readUsername () {
 
+        String username = "";
+        File directory = getActivity().getFilesDir();
+        File userFile = new File(directory, "currentUser");
+        if (userFile.exists()) {
+            try {
+                Scanner scanner = new Scanner(userFile);
 
+                if (scanner.hasNext()) {
+                    username = scanner.next();
+                }
 
+            } catch (Exception e) {
+
+            }
+        }
+        return username;
+    }
 }

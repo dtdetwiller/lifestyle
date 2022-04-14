@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +19,12 @@ import android.widget.Toast;
 
 import com.example.lifestyle.DashBoard;
 import com.example.lifestyle.MainActivity;
+import com.example.lifestyle.Profile;
 import com.example.lifestyle.R;
 import com.example.lifestyle.dashboardfragments.weather.DisplayWeatherFragment;
 import com.example.lifestyle.homefragments.HomeFragment;
+import com.example.lifestyle.model.ProfileViewModel;
+import com.example.lifestyle.profilefragments.ProfileData;
 import com.example.lifestyle.profilefragments.ProfileFragement;
 
 import java.io.File;
@@ -34,10 +38,13 @@ public class SignInFragment extends Fragment {
     private Button submit_button;
     private EditText username_view;
     private String username;
+    private ProfileViewModel profileViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
     }
 
     @Override
@@ -53,6 +60,7 @@ public class SignInFragment extends Fragment {
 
         username_view = (EditText) getView().findViewById(R.id.username_text);
 
+        profileViewModel.readProfile("");
         readUsername();
 
         submit_button = (Button) getView().findViewById(R.id.signInButton);
@@ -64,10 +72,9 @@ public class SignInFragment extends Fragment {
                     Toast.makeText(getActivity(), "Enter a username first!", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    //check server for existing username
-                    // if exists pull info
-                    // else new person
-                    writeUsername();
+
+                    //ProfileData profileData = profileViewModel.readProfile(username);
+
 
                     startActivity(new Intent(getActivity(), MainActivity.class));
 
@@ -94,7 +101,7 @@ public class SignInFragment extends Fragment {
         }
     }
 
-    public void readUsername() {
+    public String readUsername() {
         File directory = getActivity().getFilesDir();
         File userFile = new File(directory, "currentUser");
         if(userFile.exists()) {
@@ -110,6 +117,6 @@ public class SignInFragment extends Fragment {
 
             }
         }
-
+        return username;
     }
 }
