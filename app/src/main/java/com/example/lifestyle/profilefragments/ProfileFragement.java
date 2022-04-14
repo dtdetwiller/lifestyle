@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.lifestyle.Profile;
 import com.example.lifestyle.R;
 import com.example.lifestyle.model.ProfileViewModel;
+import com.example.lifestyle.model.WeatherViewModel;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -32,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 
@@ -60,7 +62,6 @@ public class ProfileFragement extends Fragment {
     // The ImageView that holds the profile pic
     ImageView mIvPic;
 
-
     private EditText first_name_text;
     private EditText last_name_text;
     private Spinner gender_spinner;
@@ -70,8 +71,8 @@ public class ProfileFragement extends Fragment {
     private EditText city_text;
     private EditText country_text;
 
-
-    private ProfileViewModel vModel;
+    private ProfileViewModel profileViewModel;
+    private WeatherViewModel weatherViewModel;
 
 
     @Override
@@ -87,9 +88,10 @@ public class ProfileFragement extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        vModel = new ViewModelProvider(this).get(ProfileViewModel.class);
+        profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
+        weatherViewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
 
-        profile = vModel.readProfile(this.getActivity());
+        profile = profileViewModel.readProfile(this.getActivity());
 
         first_name_text = view.findViewById(R.id.first_name);
         last_name_text = view.findViewById(R.id.last_name);
@@ -177,15 +179,20 @@ public class ProfileFragement extends Fragment {
         submit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                first_name = first_name_text.getText().toString();
-                last_name = last_name_text.getText().toString();
-                gender = gender_spinner.getSelectedItem().toString();
-                height_feet = height_feet_spinner.getSelectedItem().toString();
-                height_inches = height_inches_spinner.getSelectedItem().toString();
-                height_inches = height_inches_spinner.getSelectedItem().toString();
+                first_name = first_name_text.getText().toString().trim();
+                last_name = last_name_text.getText().toString().trim();
+                gender = gender_spinner.getSelectedItem().toString().trim();
+                height_feet = height_feet_spinner.getSelectedItem().toString().trim();
+                height_inches = height_inches_spinner.getSelectedItem().toString().trim();
+                height_inches = height_inches_spinner.getSelectedItem().toString().trim();
                 weight = weight_spinner.getSelectedItem().toString();
-                city = city_text.getText().toString();
-                country = country_text.getText().toString();
+                city = city_text.getText().toString().trim();
+                country = country_text.getText().toString().trim();
+
+                String cityCountry = city + "," + country.toLowerCase();
+                String location = cityCountry.replace(" ", "%20");
+
+                weatherViewModel.setLocation(location);
 
                 if (first_name.matches("")) {
                     Toast.makeText(getActivity(), "Enter a first name first!", Toast.LENGTH_SHORT).show();
@@ -299,7 +306,7 @@ public class ProfileFragement extends Fragment {
             profile.city = city;
             profile.country = country;
 
-            vModel.writeProfile(profile); // writes to model
+            profileViewModel.writeProfile(profile); // writes to model
 
 
             File file = new File(directory, "Profile");

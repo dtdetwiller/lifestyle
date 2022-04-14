@@ -51,6 +51,13 @@ public class Repository {
 
     public void setLocation(String location){
         userLocation = location;
+        loadData();
+        insertWeatherData();
+    }
+
+    private void loadData()
+    {
+        new FetchWeatherTask().execute(userLocation);
     }
 
     public void updateWeatherData(){
@@ -97,10 +104,8 @@ public class Repository {
                 try{
                     jsonWeatherData = NetworkUtility.getDataFromURL(weatherDataURL);
 
-
                     if(jsonWeatherData != null) {
                         jsonWeatherString = jsonWeatherData;
-                        insertWeatherData();
                         postWeatherToMainThread(jsonWeatherData);
                     }
                 } catch (Exception e) {

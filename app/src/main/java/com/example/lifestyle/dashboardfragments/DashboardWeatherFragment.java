@@ -50,33 +50,15 @@ public class DashboardWeatherFragment extends Fragment {
         //create the view model
         weatherViewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
 
-        //Set the database observer
-        (weatherViewModel.getWeatherData()).observe(getViewLifecycleOwner(), weatherObserver);
-
         weatherButton = getView().findViewById(R.id.weather_button);
 
         weatherButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentTransaction fTrans = getParentFragmentManager().beginTransaction();
-                loadWeatherData();
                 fTrans.replace(R.id.fl_frag_dashboard, displayWeatherFragment);
                 fTrans.commit();
             }
         });
-    }
-
-    final Observer<WeatherData> weatherObserver = new Observer<WeatherData>() {
-        @Override
-        public void onChanged(@Nullable final WeatherData weatherData) {
-            //update UI when new weather data is collected
-            if (weatherData != null){
-                displayWeatherFragment.receiveWeatherData(weatherData);
-            }
-        }
-    };
-
-    public void loadWeatherData(){
-        weatherViewModel.updateWeatherData();
     }
 }

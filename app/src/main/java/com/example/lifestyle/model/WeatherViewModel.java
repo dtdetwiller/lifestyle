@@ -19,12 +19,8 @@ public class WeatherViewModel extends AndroidViewModel {
         jsonWeatherData = repository.getWeatherData();
     }
 
-    public void updateWeatherData(){
-        //hard coding location update in repository
-        repository.setLocation("Salt&Lake&City,us");
-        // possibly make setLocation private in repo if it isnt accessed from anywhere else
-
-        repository.updateWeatherData();
+    public void setLocation(String location){
+        repository.setLocation(location);
     }
 
     public LiveData<WeatherData> getWeatherData(){

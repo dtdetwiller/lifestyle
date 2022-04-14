@@ -28,6 +28,14 @@ public class JSONWeatherUtility {
         temperature.setTemp(jsonMain.getDouble("temp"));
         weatherData.setTemperature(temperature);
 
+        JSONObject jsonSys = jsonObject.getJSONObject("sys");
+
+        LocationData locationData = new LocationData();
+        locationData.setCity(jsonObject.getString("name"));
+        locationData.setCountry(jsonSys.getString("country"));
+
+        weatherData.setLocationData(locationData);
+
         return weatherData;
     }
 }

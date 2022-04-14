@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class NetworkUtility {
     private static String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
     private static String APPIDQUERY = "&appid=";
-    private static final String app_id= "46ee370156407173a24ef981fa093f72";
+    private static final String app_id= "a31a62f9598cbd078a31ccaaed1a78b4";
 
     public static URL buildURLFromString(String location){
         URL myURL = null;
