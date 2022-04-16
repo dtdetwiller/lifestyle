@@ -28,7 +28,6 @@ public class ProfilePageFragment extends Fragment {
     private ProfileData profile;
     private ProfileViewModel profileViewModel;
 
-
     private ImageView profile_picture;
     private TextView name_view;
     private TextView body_view;
@@ -60,7 +59,6 @@ public class ProfilePageFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         profileViewModel = new ProfileViewModel(this.getActivity().getApplication());
         profile = profileViewModel.readProfile(this.getActivity());
 
@@ -77,28 +75,27 @@ public class ProfilePageFragment extends Fragment {
             }
         }
 
-        readFile();
-
         edit_profile = (Button) view.findViewById(R.id.edit_profile);
 
         name_view = (TextView) view.findViewById(R.id.name_view);
-        if(first_name != null) {
-            name_view.setText(first_name + " " + last_name + " (" + gender + ")");
+
+        profile = profileViewModel.readProfile(username = readUsername());
+
+        if(profile.firstName != null) {
+            name_view.setText(profile.firstName + " " + profile.lastName + " (" + profile.gender + ")");
         }
         else{
             name_view.setText("Not Signed In");
-            edit_profile.setText("Create Profile");
+            edit_profile.setText("Create Profile for " + username);
         }
         body_view = (TextView) view.findViewById(R.id.body_view);
-        if(height_feet != null) {
-            body_view.setText(height_feet + "'" + height_inches + " ");
+        if(profile.heightFeet != null) {
+            body_view.setText(profile.heightFeet + "'" + profile.heightInches + " ");
         }
         location_view = (TextView) view.findViewById(R.id.location);
-        if(city != null) {
-            location_view.setText(city);
+        if(profile.city != null) {
+            location_view.setText(profile.city);
         }
-
-
 
         edit_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,44 +106,23 @@ public class ProfilePageFragment extends Fragment {
 
     }
 
-    private void readFile() {
+    public String readUsername() {
+        String username = "";
 
-        File nameFile = new File(getActivity().getFilesDir(), "Profile");
+        File directory = getActivity().getFilesDir();
+        File userFile = new File(directory, "currentUser");
+        if(userFile.exists()) {
+            try{
+                Scanner scanner = new Scanner(userFile);
 
-        if(nameFile.exists()) {
-            try {
-                Scanner scanner = new Scanner(nameFile);
-                int i = 0;
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    String[] words = line.split(" ");
-                    if(words[0].equals("first_name"))
-                        first_name = words[1];
-                    else if(words[0].equals("last_name"))
-                        last_name = words[1];
-                    else if(words[0].equals("gender"))
-                        gender = words[1];
-                    else if(words[0].equals("height_feet"))
-                        height_feet = words[1];
-                    else if(words[0].equals("height_inches"))
-                        height_inches = words[1];
-                    else if(words[0].equals("weight"))
-                        weight = words[1];
-                    else if(words[0].equals("city")) {
-                        city = "";
-                        for (int j = 1; j < words.length; j++)
-                            city = city + " " + words[j];
-                    }
-                    else if(words[0].equals("country")) {
-                        country = "";
-                        for (int j = 1; j < words.length; j++)
-                            country = country + " " + words[j];
-                    }
-                    i++;
+                if(scanner.hasNext()) {
+                    username = scanner.next();
                 }
+
             } catch (Exception e) {
 
             }
         }
+        return username;
     }
 }

@@ -52,7 +52,28 @@ public class ProfileTable
     @ColumnInfo(name = "poundsPerWeek")
     public String poundsPerWeek;
 
-    public ProfileTable() {}
+    public ProfileTable(@NonNull String username, String firstName, String lastName,
+                        String gender, String heightFeet, String heightInches, String weight,
+                        String city, String country, String activityLevel, String caloriesToEat,
+                        String weightGoal, String age, String poundsPerWeek) {
+
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.heightFeet = heightFeet;
+        this.heightInches = heightInches;
+        this.weight = weight;
+        this.city = city;
+        this.country = country;
+        this.activityLevel = activityLevel;
+        this.caloriesToEat = caloriesToEat;
+        this.weightGoal = weightGoal;
+        this.age = age;
+        this.poundsPerWeek = poundsPerWeek;
+
+
+    }
 
     public ProfileTable(@NonNull String username, ProfileData profileData){
         this.username = username;
@@ -74,6 +95,13 @@ public class ProfileTable
         {
 
         }
+    }
 
+    public String getUsername() {
+        return this.username;
+    }
+
+    public String getFirstName() {
+        return this.firstName;
     }
 }

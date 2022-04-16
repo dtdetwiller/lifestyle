@@ -25,6 +25,31 @@ public class ProfileViewModel extends AndroidViewModel {
 
     public ProfileData readProfile(Activity activity) {
 
+        String username = readUsername(activity);
+
+        ProfileData profile = new ProfileData(username);
+
+        return profile;
+    }
+
+    public void writeProfile(ProfileData profile) {
+        repository.insertProfileData(profile);
+    }
+
+    public ProfileData readProfile(String username) {
+
+        ProfileData profile = repository.readProfileData(username);
+
+        return profile;
+    }
+
+    public void getAllUsers()
+    {
+        repository.getAllUsers();
+    }
+
+    public String readUsername(Activity activity) {
+
         String username = "";
 
         File directory = activity.getFilesDir();
@@ -41,27 +66,7 @@ public class ProfileViewModel extends AndroidViewModel {
 
             }
         }
-
-        ProfileData profile = new ProfileData(username);
-
-        return profile;
-    }
-
-    public void writeProfile(ProfileData profile) {
-        repository.insertProfileData(profile);
-    }
-
-    public ProfileData readProfile(String username) {
-        JSONObject j = new JSONObject(); // this will be changed to pull the json object from server
-
-        ProfileData profile = repository.readProfileData(username);
-
-        return profile;
-    }
-
-    public void getAllUsers()
-    {
-        repository.getAllUsers();
+        return username;
     }
 
 

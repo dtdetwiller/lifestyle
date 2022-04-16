@@ -60,8 +60,8 @@ public class SignInFragment extends Fragment {
 
         username_view = (EditText) getView().findViewById(R.id.username_text);
 
-        profileViewModel.readProfile("");
-        readUsername();
+        username = readUsername();
+        username_view.setText(username);
 
         submit_button = (Button) getView().findViewById(R.id.signInButton);
         submit_button.setOnClickListener(new View.OnClickListener() {
@@ -72,16 +72,10 @@ public class SignInFragment extends Fragment {
                     Toast.makeText(getActivity(), "Enter a username first!", Toast.LENGTH_SHORT).show();
                 }
                 else {
-
-                    //ProfileData profileData = profileViewModel.readProfile(username);
-
-
+                    writeUsername();
+                    ProfileData profileData = profileViewModel.readProfile(username);
                     startActivity(new Intent(getActivity(), MainActivity.class));
-
-
                 }
-
-
             }
         });
 
@@ -110,7 +104,6 @@ public class SignInFragment extends Fragment {
 
                 if(scanner.hasNext()) {
                     username = scanner.next();
-                    username_view.setText(username);
                 }
 
             } catch (Exception e) {
