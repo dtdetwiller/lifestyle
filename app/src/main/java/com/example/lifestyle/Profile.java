@@ -1,10 +1,12 @@
 package com.example.lifestyle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -12,8 +14,10 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
+import com.example.lifestyle.dashboardfragments.weather.WeatherData;
 import com.example.lifestyle.model.ProfileViewModel;
 import com.example.lifestyle.model.WeatherViewModel;
+import com.example.lifestyle.profilefragments.ProfileData;
 import com.example.lifestyle.profilefragments.ProfileFragement;
 import com.example.lifestyle.profilefragments.ProfilePageFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -65,6 +69,21 @@ public class Profile extends AppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.fragment_container, ProfilePageFragment).commit();
 
     }
+
+//    final Observer<WeatherData> profileObserver = new Observer<ProfileData>() {
+//        @Override
+//        public void onChanged(@Nullable final ProfileData profileData) {
+//
+//        }
+//
+//        @Override
+//        public void onChanged(@Nullable final WeatherData weatherData) {
+//            //update UI when new weather data is collected
+//            if (weatherData != null){
+//                receiveWeatherData(weatherData);
+//            }
+//        }
+//    };
 
     public void pageToProfile() {
         Fragment ProfileFragment = new ProfileFragement();

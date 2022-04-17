@@ -27,7 +27,7 @@ public class ProfileViewModel extends AndroidViewModel {
 
         String username = readUsername(activity);
 
-        ProfileData profile = new ProfileData(username);
+        ProfileData profile = repository.readProfileData(username);
 
         return profile;
     }

@@ -18,7 +18,7 @@ public interface ProfileDao
     void deleteAll();
 
     @Query("SELECT * from profile_table WHERE username = :user")
-    LiveData<ProfileTable> readProfile(String user);
+    ProfileTable readProfile(String user);
 
     @Query("SELECT * from profile_table ORDER BY username ASC")
     LiveData<ProfileTable> getAll();

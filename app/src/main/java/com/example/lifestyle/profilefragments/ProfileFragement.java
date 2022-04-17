@@ -41,18 +41,6 @@ import java.util.Scanner;
 
 public class ProfileFragement extends Fragment {
 
-
-    public ProfileData profile;
-
-    private String first_name;
-    private String last_name;
-    private String gender;
-    private String height_feet;
-    private String height_inches;
-    private String weight;
-    private String city;
-    private String country;
-
     private Button submit_button;
     private Button cancel_button;
 
@@ -77,6 +65,9 @@ public class ProfileFragement extends Fragment {
     private ProfileViewModel profileViewModel;
     private WeatherViewModel weatherViewModel;
 
+    private String username;
+    private ProfileData profile;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,7 +85,7 @@ public class ProfileFragement extends Fragment {
         profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
         weatherViewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
 
-
+        profile = profileViewModel.readProfile(this.getActivity());
 
         first_name_text = view.findViewById(R.id.first_name);
         last_name_text = view.findViewById(R.id.last_name);
@@ -149,48 +140,47 @@ public class ProfileFragement extends Fragment {
         weight_selector.setAdapter(weight_adapter);
 
 
-        readFile();
+        //readFile();
 
-        if (first_name != "")
-            first_name_text.setText(first_name);
-        if (last_name != "")
-            last_name_text.setText(last_name);
-        if(gender != "") {
-            int sex_position = sex_adapter.getPosition(gender);
+        if (profile.firstName != "")
+            first_name_text.setText(profile.firstName);
+        if (profile.lastName != "")
+            last_name_text.setText(profile.lastName);
+        if(profile.gender != "") {
+            int sex_position = sex_adapter.getPosition(profile.gender);
             gender_spinner.setSelection(sex_position);
         }
-        if(height_feet != "") {
-            int feet_position = feet_adapter.getPosition(height_feet);
+        if(profile.heightFeet != "") {
+            int feet_position = feet_adapter.getPosition(profile.heightFeet);
             height_feet_spinner.setSelection(feet_position);
         }
-        if(height_inches != "") {
-            int inches_position = inches_adapter.getPosition(height_inches);
+        if(profile.heightInches != "") {
+            int inches_position = inches_adapter.getPosition(profile.heightInches);
             height_inches_spinner.setSelection(inches_position);
         }
-        if(weight != "") {
-            int weight_postion = weight_adapter.getPosition(weight);
+        if(profile.weight != "") {
+            int weight_postion = weight_adapter.getPosition(profile.weight);
             weight_spinner.setSelection(weight_postion);
         }
-        if(city != "") {
-            city_text.setText(city);
+        if(profile.city != "") {
+            city_text.setText(profile.city);
         }
-        if(country != "") {
-            country_text.setText(country);
+        if(profile.country != "") {
+            country_text.setText(profile.country);
         }
 
         submit_button = (Button) getView().findViewById(R.id.submit_button);
         submit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                first_name = first_name_text.getText().toString().trim();
-                last_name = last_name_text.getText().toString().trim();
-                gender = gender_spinner.getSelectedItem().toString().trim();
-                height_feet = height_feet_spinner.getSelectedItem().toString().trim();
-                height_inches = height_inches_spinner.getSelectedItem().toString().trim();
-                height_inches = height_inches_spinner.getSelectedItem().toString().trim();
-                weight = weight_spinner.getSelectedItem().toString();
-                city = city_text.getText().toString().trim();
-                country = country_text.getText().toString().trim();
+                String first_name = first_name_text.getText().toString().trim();
+                String last_name = last_name_text.getText().toString().trim();
+                String gender = gender_spinner.getSelectedItem().toString().trim();
+                String height_feet = height_feet_spinner.getSelectedItem().toString().trim();
+                String height_inches = height_inches_spinner.getSelectedItem().toString().trim();
+                String weight = weight_spinner.getSelectedItem().toString();
+                String city = city_text.getText().toString().trim();
+                String country = country_text.getText().toString().trim();
 
 
                 String cityCountry = city + "," + country.toLowerCase();
@@ -199,28 +189,32 @@ public class ProfileFragement extends Fragment {
                 weatherViewModel.setLocation(location);
 
                 if (first_name.matches("")) {
+
                     Toast.makeText(getActivity(), "Enter a first name first!", Toast.LENGTH_SHORT).show();
                 }
                 else if(last_name.matches("")) {
+
                     Toast.makeText(getActivity(), "Enter a last name first!", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    saveFile(first_name, last_name, gender, height_feet, height_inches, weight, city, country);
+
+                    String username = readUsername();
+                    ProfileData profileData = new ProfileData(username);
+                    profileData.firstName = first_name;
+                    profileData.lastName = last_name;
+                    profileData.gender = gender;
+                    profileData.heightInches = height_inches;
+                    profileData.heightFeet = height_feet;
+                    profileData.weight = weight;
+                    profileData.city = city;
+                    profileData.country = country;
+                    profileViewModel.writeProfile(profileData);
+
                     ((Profile) getActivity()).profileToPage();
                 }
 
 
-                String username = readUsername();
-                ProfileData profileData = new ProfileData(username);
-                profileData.firstName = first_name;
-                profileData.lastName = last_name;
-                profileData.gender = gender;
-                profileData.heightInches = height_inches;
-                profileData.heightFeet = height_feet;
-                profileData.weight = weight;
-                profileData.city = city;
-                profileData.country = country;
-                profileViewModel.writeProfile(profileData);
+
             }
         });
 
@@ -311,80 +305,7 @@ public class ProfileFragement extends Fragment {
         return false;
     }
 
-    private void saveFile(String first_name, String last_name, String gender, String height_feet, String height_inches, String weight, String city, String country) {
-        File directory = getActivity().getFilesDir();
-        try {
 
-            profile.gender = gender;
-            profile.heightFeet = height_feet;
-            profile.heightInches = height_inches;
-            profile.weight = weight;
-            profile.city = city;
-            profile.country = country;
-
-            profileViewModel.writeProfile(profile); // writes to model
-
-
-            File file = new File(directory, "Profile");
-            //Toast.makeText(getActivity(), "doesn't exist", Toast.LENGTH_SHORT).show();
-            FileOutputStream writer = new FileOutputStream(file);
-            String fileString = "first_name " + first_name + "\n";
-            fileString += "last_name " + last_name + "\n";
-            fileString += "gender " + gender + "\n";
-            fileString += "height_feet " + height_feet + "\n";
-            fileString += "height_inches " + height_inches + "\n";
-            fileString += "weight " + weight + "\n";
-            fileString += "city " + city + "\n";
-            fileString += "country " + country + "\n";
-
-
-            writer.write(fileString.getBytes());
-            writer.close();
-
-        } catch (Exception e) {
-
-        }
-    }
-
-    private void readFile() {
-
-        File nameFile = new File(getActivity().getFilesDir(), "Profile");
-
-        if (nameFile.exists()) {
-            try {
-                Scanner scanner = new Scanner(nameFile);
-                int i = 0;
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    String[] words = line.split(" ");
-                    if (words[0].equals("first_name"))
-                        first_name = words[1];
-                    else if (words[0].equals("last_name"))
-                        last_name = words[1];
-                    else if (words[0].equals("gender"))
-                        gender = words[1];
-                    else if (words[0].equals("height_feet"))
-                        height_feet = words[1];
-                    else if (words[0].equals("height_inches"))
-                        height_inches = words[1];
-                    else if (words[0].equals("weight"))
-                        weight = words[1];
-                    else if (words[0].equals("city")) {
-                        city = "";
-                        for (int j = 1; j < words.length; j++)
-                            city = city + " " + words[j];
-                    } else if (words[0].equals("country")) {
-                        country = "";
-                        for (int j = 1; j < words.length; j++)
-                            country = country + " " + words[j];
-                    }
-                    i++;
-                }
-            } catch (Exception e) {
-
-            }
-        }
-    }
     private String readUsername () {
 
         String username = "";

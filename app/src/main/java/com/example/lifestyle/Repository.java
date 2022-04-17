@@ -32,6 +32,7 @@ public class Repository {
     private String userLocation;
     private String jsonWeatherString;
     private WeatherDao weatherDao;
+
     private ProfileDao profileDao;
     private ProfileData profileData;
 
@@ -89,32 +90,38 @@ public class Repository {
 
     public ProfileData readProfileData(String username)
     {
+
         AppDatabase.databaseExecutor.execute(() -> {
             try{
-                LiveData<ProfileTable> data = profileDao.readProfile(username);
-                //String user = data.getValue().getUsername();
+                ProfileTable data = profileDao.readProfile(username);
                 profileData = new ProfileData(username);
 
-                // This isn't working
-                if(data.getValue().firstName != null)
-                    profileData.firstName = data.getValue().firstName;
-                if(data.getValue().lastName != null)
-                    profileData.lastName = data.getValue().lastName;
-                if(data.getValue().gender != null)
-                    profileData.gender = data.getValue().gender;
-                if(data.getValue().heightFeet != null)
-                    profileData.heightFeet = data.getValue().heightFeet;
-                if(data.getValue().heightInches != null)
-                    profileData.heightInches = data.getValue().heightInches;
-
-//                profileData.weight = data.getValue().weight;
-//                profileData.city = data.getValue().city;
-//                profileData.country = data.getValue().country;
-//                profileData.activityLevel = data.getValue().activityLevel;
-//                profileData.caloriesToEat = Integer.parseInt(data.getValue().caloriesToEat);
-//                profileData.weightGoal = data.getValue().weightGoal;
-//                profileData.age = data.getValue().age;
-//                profileData.poundsPerWeek = data.getValue().poundsPerWeek;
+                if(data.firstName != null)
+                    profileData.firstName = data.firstName;
+                if(data.lastName != null)
+                    profileData.lastName = data.lastName;
+                if(data.gender != null)
+                    profileData.gender = data.gender;
+                if(data.heightFeet != null)
+                    profileData.heightFeet = data.heightFeet;
+                if(data.heightInches != null)
+                    profileData.heightInches = data.heightInches;
+                if(data.weight != null)
+                    profileData.weight = data.weight;
+                if(data.city != null)
+                    profileData.city = data.city;
+                if(data.country != null)
+                    profileData.country = data.country;
+                if(data.activityLevel != null)
+                    profileData.activityLevel = data.activityLevel;
+                if(data.caloriesToEat != null)
+                    profileData.caloriesToEat = Integer.parseInt(data.caloriesToEat);
+                if(data.weightGoal != null)
+                    profileData.weightGoal = data.weightGoal;
+                if(data.age != null)
+                    profileData.age = data.age;
+                if(data.poundsPerWeek != null)
+                    profileData.poundsPerWeek = data.poundsPerWeek;
             }
             catch(Exception e) {
 
