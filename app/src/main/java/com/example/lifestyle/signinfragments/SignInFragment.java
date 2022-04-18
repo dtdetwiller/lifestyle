@@ -73,7 +73,7 @@ public class SignInFragment extends Fragment {
                 }
                 else {
                     writeUsername();
-                    ProfileData profileData = profileViewModel.readProfile(username);
+                    ProfileData profileData = profileViewModel.readProfile(getActivity());
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 }
             }

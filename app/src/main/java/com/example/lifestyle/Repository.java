@@ -1,5 +1,6 @@
 package com.example.lifestyle;
 
+import android.app.Activity;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
@@ -21,7 +22,9 @@ import com.example.lifestyle.profilefragments.ProfileData;
 
 import org.json.JSONException;
 
+import java.io.File;
 import java.net.URL;
+import java.util.Scanner;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -88,8 +91,9 @@ public class Repository {
 
     }
 
-    public ProfileData readProfileData(String username)
+    public ProfileData readProfileData(Activity activity)
     {
+        String username = readUsername(activity);
 
         AppDatabase.databaseExecutor.execute(() -> {
             try{
@@ -145,7 +149,25 @@ public class Repository {
         new FetchWeatherTask().execute(userLocation);
     }
 
+    public String readUsername(Activity activity) {
+        String username = "";
 
+        File directory = activity.getFilesDir();
+        File userFile = new File(directory, "currentUser");
+        if(userFile.exists()) {
+            try{
+                Scanner scanner = new Scanner(userFile);
+
+                if(scanner.hasNext()) {
+                    username = scanner.next();
+                }
+
+            } catch (Exception e) {
+
+            }
+        }
+        return username;
+    }
 
     private class FetchWeatherTask{
         ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -180,5 +202,7 @@ public class Repository {
                 }
             });
         }
+
+
     }
 }

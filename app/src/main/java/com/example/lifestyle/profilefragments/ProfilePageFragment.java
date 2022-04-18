@@ -79,7 +79,7 @@ public class ProfilePageFragment extends Fragment {
 
         name_view = (TextView) view.findViewById(R.id.name_view);
 
-        profile = profileViewModel.readProfile(username = readUsername());
+        profile = profileViewModel.readProfile(getActivity());
 
         if(profile.firstName != null) {
             name_view.setText(profile.firstName + " " + profile.lastName + " (" + profile.gender + ")");
@@ -106,23 +106,5 @@ public class ProfilePageFragment extends Fragment {
 
     }
 
-    public String readUsername() {
-        String username = "";
 
-        File directory = getActivity().getFilesDir();
-        File userFile = new File(directory, "currentUser");
-        if(userFile.exists()) {
-            try{
-                Scanner scanner = new Scanner(userFile);
-
-                if(scanner.hasNext()) {
-                    username = scanner.next();
-                }
-
-            } catch (Exception e) {
-
-            }
-        }
-        return username;
-    }
 }

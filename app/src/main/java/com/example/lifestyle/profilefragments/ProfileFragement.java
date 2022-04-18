@@ -182,12 +182,6 @@ public class ProfileFragement extends Fragment {
                 String city = city_text.getText().toString().trim();
                 String country = country_text.getText().toString().trim();
 
-
-                String cityCountry = city + "," + country.toLowerCase();
-                String location = cityCountry.replace(" ", "%20");
-
-                weatherViewModel.setLocation(location);
-
                 if (first_name.matches("")) {
 
                     Toast.makeText(getActivity(), "Enter a first name first!", Toast.LENGTH_SHORT).show();

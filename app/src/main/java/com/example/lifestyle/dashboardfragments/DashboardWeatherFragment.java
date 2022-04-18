@@ -18,14 +18,17 @@ import android.widget.Button;
 import com.example.lifestyle.R;
 import com.example.lifestyle.dashboardfragments.weather.DisplayWeatherFragment;
 import com.example.lifestyle.dashboardfragments.weather.WeatherData;
+import com.example.lifestyle.model.ProfileViewModel;
 import com.example.lifestyle.model.WeatherViewModel;
+import com.example.lifestyle.profilefragments.ProfileData;
 
 public class DashboardWeatherFragment extends Fragment {
 
     private Button weatherButton;
     public WeatherViewModel weatherViewModel;
     public DisplayWeatherFragment displayWeatherFragment = new DisplayWeatherFragment();
-    ;
+    private ProfileViewModel profileViewModel;
+    private ProfileData profileData;
 
     public DashboardWeatherFragment() {
         // Required empty public constructor
@@ -49,6 +52,15 @@ public class DashboardWeatherFragment extends Fragment {
 
         //create the view model
         weatherViewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
+
+        // Get the profile data
+        profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
+        profileData = profileViewModel.readProfile(getActivity());
+
+        // Retrieve the cit and country from ProfileData and set the location on the weather view model.
+        String cityCountry = profileData.city + "," + profileData.country;
+        String location = cityCountry.replace(" ", "%20");
+        weatherViewModel.setLocation(location);
 
         weatherButton = getView().findViewById(R.id.weather_button);
 

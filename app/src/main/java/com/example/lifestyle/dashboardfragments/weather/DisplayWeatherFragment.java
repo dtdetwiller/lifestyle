@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.example.lifestyle.R;
 import com.example.lifestyle.model.ProfileViewModel;
 import com.example.lifestyle.model.WeatherViewModel;
+import com.example.lifestyle.profilefragments.ProfileData;
 
 import org.json.JSONException;
 
