@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.lifestyle.R;
+import com.example.lifestyle.model.ProfileViewModel;
+import com.example.lifestyle.profilefragments.ProfileData;
 
 import java.io.File;
 import java.util.Scanner;
@@ -21,6 +23,9 @@ public class DashboardBMIFragment extends Fragment {
 
     private Button bmi_button;
     private TextView bmi_text;
+
+    private ProfileViewModel profileViewModel;
+    private ProfileData profileData;
 
 
     public DashboardBMIFragment() {
@@ -40,45 +45,31 @@ public class DashboardBMIFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        profileViewModel = new ProfileViewModel(this.getActivity().getApplication());
+        profileData = profileViewModel.readProfile(this.getActivity());
+
         bmi_text = getView().findViewById(R.id.bmi_text);
 
         bmi_button = getView().findViewById(R.id.bmi_button);
         bmi_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                File profileFile = new File(getActivity().getFilesDir(), "Profile");
 
                 int height_feet = 0;
-                int height_inches = 0;
+                int height_inches = 0;;
                 int weight_lbs = 0;
                 double BMI = 0;
 
-                if (profileFile.exists()) {
+                if(profileData.heightFeet != null)
+                    height_feet = Integer.parseInt(profileData.heightFeet);
+                if(profileData.heightInches != null)
+                    height_inches = Integer.parseInt(profileData.heightInches);;
+                if(profileData.weight != null)
+                    weight_lbs = Integer.parseInt(profileData.weight);
 
-                    try {
 
-                        Scanner scnr = new Scanner(profileFile);
-
-                        while (scnr.hasNextLine()) {
-                            String line = scnr.nextLine();
-                            String[] tokens = line.split(" ");
-
-                            if (tokens[0].equals("height_feet"))
-                                height_feet = Integer.parseInt(tokens[1]);
-                            else if (tokens[0].equals("height_inches"))
-                                height_inches = Integer.parseInt(tokens[1]);
-                            else if (tokens[0].equals("weight"))
-                                weight_lbs = Integer.parseInt(tokens[1]);
-                        }
-                    }
-                    catch (Exception e) {
-                        System.out.println("There was an error tring to read the Profile file.");
-                    }
-
-                    BMI = calculateBMI(height_feet, height_inches, weight_lbs);
+                BMI = calculateBMI(height_feet, height_inches, weight_lbs);
                     bmi_text.setText("BMI: " + String.format("%.1f", BMI));
-
-                }
 
             }
         });

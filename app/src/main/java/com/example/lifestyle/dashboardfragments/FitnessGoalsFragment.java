@@ -16,8 +16,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
+import com.example.lifestyle.Profile;
 import com.example.lifestyle.R;
 import com.example.lifestyle.MainActivity;
+import com.example.lifestyle.model.ProfileViewModel;
+import com.example.lifestyle.profilefragments.ProfileData;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,17 +29,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FitnessGoalsFragment extends Fragment {
-
-    private double BMR = 0.0;
-    private int calories = 0;
-    private String gender = "";
-    private String heightFeet = "";
-    private String heightInches = "";
-    private String weight = "";
-    private String age = "";
-    private String activityLevel = "";
-    private String weightGoal = "";
-    private String poundsPerWeek = "";
 
     private Button submitButton;
     private Spinner genderSpinner;
@@ -52,6 +44,9 @@ public class FitnessGoalsFragment extends Fragment {
     private RadioButton gainRadioButton;
     private RadioButton maintainRadioButton;
     private Spinner poundsPerWeekSpinner;
+
+    private ProfileViewModel profileViewModel;
+    private ProfileData profileData;
 
 
     public FitnessGoalsFragment() {
@@ -75,6 +70,9 @@ public class FitnessGoalsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        profileViewModel = new ProfileViewModel(this.getActivity().getApplication());
+        profileData = profileViewModel.readProfile(this.getActivity());
+
         SetUpForm(view);
 
         submitButton = view.findViewById(R.id.fg_submit_button);
@@ -82,30 +80,32 @@ public class FitnessGoalsFragment extends Fragment {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gender = genderSpinner.getSelectedItem().toString();
-                heightFeet = feetSpinner.getSelectedItem().toString();
-                heightInches = inchesSpinner.getSelectedItem().toString();
-                weight = weightSpinner.getSelectedItem().toString();
-                age = ageSpinner.getSelectedItem().toString();
-                poundsPerWeek = poundsPerWeekSpinner.getSelectedItem().toString();
+
+                profileData.gender = genderSpinner.getSelectedItem().toString();
+                profileData.heightFeet = feetSpinner.getSelectedItem().toString();
+                profileData.heightInches = inchesSpinner.getSelectedItem().toString();
+                profileData.weight = weightSpinner.getSelectedItem().toString();
+                profileData.age = ageSpinner.getSelectedItem().toString();
+                profileData.poundsPerWeek = poundsPerWeekSpinner.getSelectedItem().toString();
 
                 if (activeRadioButton.isChecked())
-                    activityLevel = "Active";
+                    profileData.activityLevel = "Active";
                 else if (sedentaryRadioButton.isChecked())
-                    activityLevel = "Sedentary";
+                    profileData.activityLevel = "Sedentary";
                 else
-                    activityLevel = "";
+                    profileData.activityLevel = "";
 
                 if (loseRadioButton.isChecked())
-                    weightGoal = "Lose";
+                    profileData.weightGoal = "Lose";
                 else if (gainRadioButton.isChecked())
-                    weightGoal = "Gain";
+                    profileData.weightGoal = "Gain";
                 else if (maintainRadioButton.isChecked())
-                    weightGoal = "Maintain";
+                    profileData.weightGoal = "Maintain";
                 else
-                    weightGoal = "";
+                    profileData.weightGoal = "";
 
-                SaveFile();
+                //SaveFile();
+                profileViewModel.writeProfile(profileData);
 
                 BackToDashboard();
             }
@@ -189,135 +189,43 @@ public class FitnessGoalsFragment extends Fragment {
         poundsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         poundsPerWeekSpinner.setAdapter(poundsAdapter);
 
-        ReadProfile();
-        ReadFile();
-
-        if (!gender.equals("")) {
-            int pos = genderAdapter.getPosition(gender);
+        if (profileData.gender != null) {
+            int pos = genderAdapter.getPosition(profileData.gender);
             genderSpinner.setSelection(pos);
         }
-        if (!heightInches.equals("")) {
-            int pos = inchesAdapter.getPosition(heightInches);
+        if (profileData.heightInches != null) {
+            int pos = inchesAdapter.getPosition(profileData.heightInches);
             inchesSpinner.setSelection(pos);
         }
-        if (!heightFeet.equals("")) {
-            int pos = feetAdapter.getPosition(heightFeet);
+        if (profileData.heightFeet != null) {
+            int pos = feetAdapter.getPosition(profileData.heightFeet);
             feetSpinner.setSelection(pos);
         }
-        if (!weight.equals("")) {
-            int pos = weightAdapter.getPosition(weight);
+        if (profileData.weight != null) {
+            int pos = weightAdapter.getPosition(profileData.weight);
             weightSpinner.setSelection(pos);
         }
-        if (!age.equals("")) {
-            int pos = ageAdapter.getPosition(age);
+        if (profileData.age != null) {
+            int pos = ageAdapter.getPosition(profileData.age);
             ageSpinner.setSelection(pos);
         }
-        if (!poundsPerWeek.equals("")) {
-            int pos = poundsAdapter.getPosition(poundsPerWeek);
+        if (profileData.poundsPerWeek != null) {
+            int pos = poundsAdapter.getPosition(profileData.poundsPerWeek);
             poundsPerWeekSpinner.setSelection(pos);
         }
-        if (!activityLevel.equals("")) {
-            if (activityLevel.equals("Sedentary"))
+        if (profileData.activityLevel != null) {
+            if (profileData.activityLevel.equals("Sedentary"))
                 sedentaryRadioButton.setChecked(true);
-            else if (activityLevel.equals("Active"))
+            else if (profileData.activityLevel.equals("Active"))
                 activeRadioButton.setChecked(true);
         }
-        if (!weightGoal.equals("")) {
-            if (weightGoal.equals("Gain"))
+        if (profileData.weightGoal != null) {
+            if (profileData.weightGoal.equals("Gain"))
                 gainRadioButton.setChecked(true);
-            else if (weightGoal.equals("Lose"))
+            else if (profileData.weightGoal.equals("Lose"))
                 loseRadioButton.setChecked(true);
-            else if (weightGoal.equals("Maintain"))
+            else if (profileData.weightGoal.equals("Maintain"))
                 maintainRadioButton.setChecked(true);
-        }
-    }
-
-    /**
-     * Saves all the fitness goal fields to a file called FitnessGoals
-     */
-    private void SaveFile() {
-        File directory = getActivity().getFilesDir();
-        try {
-            File file = new File(directory, "FitnessGoals");
-            //Toast.makeText(getActivity(), "doesn't exist", Toast.LENGTH_SHORT).show();
-            FileOutputStream writer = new FileOutputStream(file);
-            String fileString = "gender " + gender + "\n";
-            fileString += "heightFeet " + heightFeet + "\n";
-            fileString += "heightInches " + heightInches + "\n";
-            fileString += "age " + age + "\n";
-            fileString += "weight " + weight + "\n";
-            fileString += "activityLevel " + activityLevel + "\n";
-            fileString += "weightGoal " + weightGoal + "\n";
-            fileString += "poundsPerWeek " + poundsPerWeek + "\n";
-
-            writer.write(fileString.getBytes());
-            writer.close();
-
-        } catch (Exception e) {
-
-        }
-    }
-
-    /**
-     * Reads the FitnessGoals file and sets all the values.
-     */
-    private void ReadFile() {
-
-        File nameFile = new File(getActivity().getFilesDir(), "FitnessGoals");
-
-        if(nameFile.exists()) {
-            try {
-                Scanner scanner = new Scanner(nameFile);
-                int i = 0;
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    String[] words = line.split(" ");
-                    if(words[0].equals("gender"))
-                        gender = words[1];
-                    else if(words[0].equals("heightFeet"))
-                        heightFeet = words[1];
-                    else if(words[0].equals("heightInches"))
-                        heightInches = words[1];
-                    else if(words[0].equals("weight"))
-                        weight = words[1];
-                    else if(words[0].equals("age"))
-                        age = words[1];
-                    else if(words[0].equals("activityLevel"))
-                        activityLevel = words[1];
-                    else if(words[0].equals("poundsPerWeek"))
-                        poundsPerWeek = words[1];
-                    else if(words[0].equals("weightGoal"))
-                        weightGoal = words[1];
-                }
-            } catch (Exception e) {
-
-            }
-        }
-    }
-
-    private void ReadProfile() {
-        File nameFile = new File(getActivity().getFilesDir(), "Profile");
-
-        if(nameFile.exists()) {
-            try {
-                Scanner scanner = new Scanner(nameFile);
-                int i = 0;
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    String[] words = line.split(" ");
-                    if(words[0].equals("gender"))
-                        gender = words[1];
-                    else if(words[0].equals("height_feet"))
-                        heightFeet = words[1];
-                    else if(words[0].equals("height_inches"))
-                        heightInches = words[1];
-                    else if(words[0].equals("weight"))
-                        weight = words[1];
-                    i++;
-                }
-            } catch (Exception e) {
-
-            }
         }
     }
 

@@ -86,7 +86,7 @@ public class ProfilePageFragment extends Fragment {
         }
         else{
             name_view.setText("Not Signed In");
-            edit_profile.setText("Create Profile for " + username);
+            edit_profile.setText("Create Profile");
         }
         body_view = (TextView) view.findViewById(R.id.body_view);
         if(profile.heightFeet != null) {
