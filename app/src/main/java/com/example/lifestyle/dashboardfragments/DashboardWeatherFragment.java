@@ -10,10 +10,12 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.lifestyle.R;
 import com.example.lifestyle.dashboardfragments.weather.DisplayWeatherFragment;
@@ -67,9 +69,16 @@ public class DashboardWeatherFragment extends Fragment {
         weatherButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentTransaction fTrans = getParentFragmentManager().beginTransaction();
-                fTrans.replace(R.id.fl_frag_dashboard, displayWeatherFragment);
-                fTrans.commit();
+                if(profileData.city != null){
+                    weatherViewModel.updateWeatherData();
+                    FragmentTransaction fTrans = getParentFragmentManager().beginTransaction();
+                    fTrans.replace(R.id.fl_frag_dashboard, displayWeatherFragment);
+                    fTrans.commit();
+                }
+
+                else {
+                    Toast.makeText(getActivity(), "Create a profile first!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
