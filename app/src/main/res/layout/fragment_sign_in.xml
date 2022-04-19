@@ -13,6 +13,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="3dp"
         android:layout_marginBottom="10dp"
+        android:hint="Enter Username"
+        android:gravity="center_horizontal"
         android:id="@+id/username_text"
         />
 
