@@ -39,7 +39,7 @@ import java.util.Locale;
 import java.util.Scanner;
 
 
-public class ProfileFragement extends Fragment {
+public class ProfileFragment extends Fragment {
 
     private Button submit_button;
     private Button cancel_button;

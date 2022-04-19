@@ -2,27 +2,16 @@ package com.example.lifestyle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.example.lifestyle.dashboardfragments.DashboardMainFragment;
 import com.example.lifestyle.homefragments.HomeFragment;
-import com.example.lifestyle.model.WeatherViewModel;
-import com.example.lifestyle.profilefragments.ProfileFragement;
-import com.example.lifestyle.profilefragments.ProfilePageFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
