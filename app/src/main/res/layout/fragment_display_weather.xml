@@ -45,6 +45,15 @@
             android:text="Humidity: "
             android:textSize="20dp" />
 
+        <Button
+            android:id="@+id/weather_fg_back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="12dp"
+            android:text="Back" />
+
     </RelativeLayout>
 
 </FrameLayout>

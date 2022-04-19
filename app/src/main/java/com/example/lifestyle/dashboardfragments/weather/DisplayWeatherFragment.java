@@ -1,6 +1,8 @@
 package com.example.lifestyle.dashboardfragments.weather;
 
 import android.os.Bundle;
+
+import com.example.lifestyle.dashboardfragments.DashboardMainFragment;
 import com.example.lifestyle.dashboardfragments.weather.NetworkUtility;
 import com.example.lifestyle.dashboardfragments.weather.JSONWeatherUtility;
 import com.example.lifestyle.dashboardfragments.weather.WeatherData;
@@ -10,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.os.HandlerCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -19,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.lifestyle.R;
@@ -39,6 +43,7 @@ public class DisplayWeatherFragment extends Fragment {
     private TextView mTvHum;
     private TextView mTvTitle;
     private WeatherViewModel weatherViewModel;
+    private Button backButton;
 
     public DisplayWeatherFragment() {
         // Required empty public constructor
@@ -69,7 +74,14 @@ public class DisplayWeatherFragment extends Fragment {
         mTvTemp = getView().findViewById(R.id.TemperatureView);
         mTvTitle = getView().findViewById(R.id.WeatherTitle);
 
+        backButton = view.findViewById(R.id.weather_fg_back_button);
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BackToDashboard();
+            }
+        });
     }
 
     /***
@@ -92,5 +104,15 @@ public class DisplayWeatherFragment extends Fragment {
             }
         }
     };
+
+    /**
+     * Replaces the current fragment to the main dashboard fragment.
+     */
+    private void BackToDashboard() {
+        DashboardMainFragment dashboardMainFragment = new DashboardMainFragment();
+        FragmentTransaction fTrans = getParentFragmentManager().beginTransaction();
+        fTrans.replace(R.id.fl_frag_dashboard, dashboardMainFragment, "frag_dashboard");
+        fTrans.commit();
+    }
 }
 
