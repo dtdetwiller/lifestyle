@@ -71,10 +71,17 @@ public class DashboardWeatherFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(profileData.city != null){
-                    weatherViewModel.updateWeatherData();
-                    FragmentTransaction fTrans = getParentFragmentManager().beginTransaction();
-                    fTrans.replace(R.id.fl_frag_dashboard, displayWeatherFragment);
-                    fTrans.commit();
+
+                    if (weatherViewModel.updateWeatherData()){
+                        FragmentTransaction fTrans = getParentFragmentManager().beginTransaction();
+                        fTrans.replace(R.id.fl_frag_dashboard, displayWeatherFragment);
+                        fTrans.commit();
+                    }
+
+                    else{
+                        Toast.makeText(getActivity(), "Entered profile location is invalid!", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
 
                 else {

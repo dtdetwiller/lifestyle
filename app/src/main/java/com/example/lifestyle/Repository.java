@@ -59,11 +59,22 @@ public class Repository {
         insertWeatherData();
     }
 
-    public void updateWeatherData(){
+    public boolean updateWeatherData(){
         if (userLocation != null){
             loadWeatherData();
-            insertWeatherData();
+
+            if (jsonWeatherString != null){
+                insertWeatherData();
+            }
+
+            else{
+                return false;
+            }
+
+            return true;
         }
+
+        return false;
     }
 
     private void insertWeatherData(){
@@ -178,7 +189,14 @@ public class Repository {
                         jsonWeatherString = jsonWeatherData;
                         postWeatherToMainThread(jsonWeatherData);
                     }
+
+                    else{
+
+                    }
+
+
                 } catch (Exception e) {
+
                     e.printStackTrace();
                 }
             });

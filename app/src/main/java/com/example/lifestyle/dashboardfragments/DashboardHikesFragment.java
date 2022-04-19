@@ -1,6 +1,8 @@
 package com.example.lifestyle.dashboardfragments;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -17,6 +19,10 @@ import android.widget.Toast;
 import com.example.lifestyle.R;
 import com.example.lifestyle.model.ProfileViewModel;
 import com.example.lifestyle.profilefragments.ProfileData;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class DashboardHikesFragment extends Fragment {
 
@@ -49,23 +55,41 @@ public class DashboardHikesFragment extends Fragment {
         hikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // if(profileData.city != null){
+                if(profileData.city != null){
                     // Retrieve the cit and country from ProfileData and set the location on the weather view model.
-                    String cityCountry = profileData.city + "," + profileData.country;
-                    String location = cityCountry.replace(" ", "%20");
+                    String location = profileData.city + "," + profileData.country;
 
-                    Uri hikeSearch = Uri.parse("geo:40.753977,-111.88172?q=Hikes");
+                    double lat = 0;
+                    double lon = 0;
 
-                    //Create implicit intent
-                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, hikeSearch);
+                    Geocoder gc = new Geocoder(getContext(), Locale.getDefault());
+                    try {
+                        List<Address> addresses = gc.getFromLocationName(location, 2);
+                        Address address = addresses.get(0);
+                        lat = address.getLatitude();
+                        lon = address.getLongitude();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-                    //Fire intent
-                    startActivity(mapIntent);
-                //}
+                    if(lat == 0 || lon ==0){
+                        Toast.makeText(getActivity(), "Entered profile location is invalid!", Toast.LENGTH_SHORT).show();
+                    }
 
-                //else{
-                   // Toast.makeText(getActivity(), "Create a profile first!", Toast.LENGTH_SHORT).show();
-                // }
+                    else{
+                        Uri hikeSearch = Uri.parse("geo:" + Double.toString(lat) + "," + Double.toString(lon) + "?q=Hikes");
+
+                        //Create implicit intent
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, hikeSearch);
+
+                        //Fire intent
+                        startActivity(mapIntent);
+                    }
+                }
+
+                else{
+                   Toast.makeText(getActivity(), "Create a profile first!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
