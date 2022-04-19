@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toolbar;
 
 import com.example.lifestyle.R;
+import com.example.lifestyle.model.ProfileViewModel;
+import com.example.lifestyle.profilefragments.ProfileData;
 
 import java.io.File;
 import java.util.Scanner;
@@ -43,6 +45,9 @@ public class HomeFragment extends Fragment {
     private String age = "";
     private String poundsPerWeek = "";
 
+    private ProfileViewModel profileViewModel;
+    private ProfileData profileData;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +64,10 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        profileViewModel = new ProfileViewModel(this.getActivity().getApplication());
+        profileData = profileViewModel.readProfile(this.getActivity());
 
-        ReadFile();
+        ReadDatabase();
 
         welcomeText = getView().findViewById(R.id.welcome_text);
         welcomeText.setText("Welcome " + first_name);
@@ -107,7 +114,7 @@ public class HomeFragment extends Fragment {
         weightGoal = "";
         poundsPerWeek = "";
 
-        ReadFile();;
+        ReadDatabase();
 
         if (!poundsPerWeek.matches("-?\\d+"))
             poundsPerWeek = "0";
@@ -197,55 +204,46 @@ public class HomeFragment extends Fragment {
     /**
      * Reads the FitnessGoals file and sets all the values.
      */
-    private void ReadFile() {
+    private void ReadDatabase() {
 
-        File nameFile = new File(getActivity().getFilesDir(), "FitnessGoals");
+        if (profileData.gender != null)
+            gender = profileData.gender;
+        else
+            gender = "";
+        if (profileData.heightFeet != null)
+            heightFeet = profileData.heightFeet;
+        else
+            heightFeet = "";
+        if (profileData.heightInches != null)
+            heightInches = profileData.heightInches;
+        else
+            heightInches = "";
+        if (profileData.weight != null)
+            weight = profileData.weight;
+        else
+            weight = "";
+        if (profileData.age != null)
+            age = profileData.age;
+        else
+            age = "";
+        if (profileData.activityLevel != null)
+            activityLevel = profileData.activityLevel;
+        else
+            activityLevel = "";
+        if (profileData.poundsPerWeek != null)
+            poundsPerWeek = profileData.poundsPerWeek;
+        else
+            poundsPerWeek = "";
+        if (profileData.weightGoal != null)
+            weightGoal = profileData.weightGoal;
+        else
+            weightGoal = "";
 
-        if(nameFile.exists()) {
-            try {
-                Scanner scanner = new Scanner(nameFile);
-                int i = 0;
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    String[] words = line.split(" ");
-                    if(words[0].equals("gender"))
-                        gender = words[1];
-                    else if(words[0].equals("heightFeet"))
-                        heightFeet = words[1];
-                    else if(words[0].equals("heightInches"))
-                        heightInches = words[1];
-                    else if(words[0].equals("weight"))
-                        weight = words[1];
-                    else if(words[0].equals("age"))
-                        age = words[1];
-                    else if(words[0].equals("activityLevel"))
-                        activityLevel = words[1];
-                    else if(words[0].equals("poundsPerWeek"))
-                        poundsPerWeek = words[1];
-                    else if(words[0].equals("weightGoal"))
-                        weightGoal = words[1];
-                }
-            } catch (Exception e) {
+        if (profileData.firstName != null)
+            first_name = profileData.firstName;
+        else
+            first_name = "";
 
-            }
 
-            nameFile = new File(getActivity().getFilesDir(), "Profile");
-
-            if(nameFile.exists()) {
-                try {
-                    Scanner scanner = new Scanner(nameFile);
-                    int i = 0;
-                    while (scanner.hasNextLine()) {
-                        String line = scanner.nextLine();
-                        String[] words = line.split(" ");
-                        if(words[0].equals("first_name"))
-                            first_name = words[1];
-                        i++;
-                    }
-                } catch (Exception e) {
-
-                }
-            }
-        }
     }
 }
