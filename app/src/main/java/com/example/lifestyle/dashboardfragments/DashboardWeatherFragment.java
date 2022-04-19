@@ -62,6 +62,7 @@ public class DashboardWeatherFragment extends Fragment {
         // Retrieve the cit and country from ProfileData and set the location on the weather view model.
         String cityCountry = profileData.city + "," + profileData.country;
         String location = cityCountry.replace(" ", "%20");
+
         weatherViewModel.setLocation(location);
 
         weatherButton = getView().findViewById(R.id.weather_button);

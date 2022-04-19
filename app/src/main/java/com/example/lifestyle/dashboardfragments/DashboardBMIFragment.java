@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lifestyle.R;
 import com.example.lifestyle.model.ProfileViewModel;
@@ -54,23 +55,27 @@ public class DashboardBMIFragment extends Fragment {
         bmi_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(profileData.weight != null){
+                    int height_feet = 0;
+                    int height_inches = 0;;
+                    int weight_lbs = 0;
+                    double BMI = 0;
 
-                int height_feet = 0;
-                int height_inches = 0;;
-                int weight_lbs = 0;
-                double BMI = 0;
-
-                if(profileData.heightFeet != null)
-                    height_feet = Integer.parseInt(profileData.heightFeet);
-                if(profileData.heightInches != null)
-                    height_inches = Integer.parseInt(profileData.heightInches);;
-                if(profileData.weight != null)
-                    weight_lbs = Integer.parseInt(profileData.weight);
+                    if(profileData.heightFeet != null)
+                        height_feet = Integer.parseInt(profileData.heightFeet);
+                    if(profileData.heightInches != null)
+                        height_inches = Integer.parseInt(profileData.heightInches);;
+                    if(profileData.weight != null)
+                        weight_lbs = Integer.parseInt(profileData.weight);
 
 
-                BMI = calculateBMI(height_feet, height_inches, weight_lbs);
+                    BMI = calculateBMI(height_feet, height_inches, weight_lbs);
                     bmi_text.setText("BMI: " + String.format("%.1f", BMI));
+                }
 
+                else{
+                    Toast.makeText(getActivity(), "Create a profile first!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

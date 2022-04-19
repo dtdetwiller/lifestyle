@@ -12,12 +12,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.lifestyle.R;
+import com.example.lifestyle.model.ProfileViewModel;
+import com.example.lifestyle.profilefragments.ProfileData;
 
 public class DashboardHikesFragment extends Fragment {
 
     private Button hikeButton;
+
+    private ProfileViewModel profileViewModel;
+    private ProfileData profileData;
 
     public DashboardHikesFragment() {
         // Required empty public constructor
@@ -34,20 +40,32 @@ public class DashboardHikesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        profileViewModel = new ProfileViewModel(this.getActivity().getApplication());
+        profileData = profileViewModel.readProfile(this.getActivity());
+
         hikeButton = getView().findViewById(R.id.hike_button);
 
         //Open Google Maps for nearby hikes
         hikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri hikeSearch = Uri.parse("geo:40.753977,-111.88172?q=Hikes");
+                // if(profileData.city != null){
+                    // Retrieve the cit and country from ProfileData and set the location on the weather view model.
+                    String cityCountry = profileData.city + "," + profileData.country;
+                    String location = cityCountry.replace(" ", "%20");
 
-                //Create implicit intent
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, hikeSearch);
+                    Uri hikeSearch = Uri.parse("geo:40.753977,-111.88172?q=Hikes");
 
-                //Fire intent
-                startActivity(mapIntent);
+                    //Create implicit intent
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, hikeSearch);
 
+                    //Fire intent
+                    startActivity(mapIntent);
+                //}
+
+                //else{
+                   // Toast.makeText(getActivity(), "Create a profile first!", Toast.LENGTH_SHORT).show();
+                // }
             }
         });
     }

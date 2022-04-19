@@ -13,8 +13,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lifestyle.R;
+import com.example.lifestyle.model.ProfileViewModel;
+import com.example.lifestyle.profilefragments.ProfileData;
 
 import java.io.File;
 import java.util.Scanner;
@@ -26,6 +29,9 @@ public class DashboardFitnessGoalsFragment extends Fragment {
 
     private String weightGoal;
     private String poundsPerWeek;
+
+    private ProfileViewModel profileViewModel;
+    private ProfileData profileData;
 
     public DashboardFitnessGoalsFragment() {
         // Required empty public constructor
@@ -48,6 +54,9 @@ public class DashboardFitnessGoalsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        profileViewModel = new ProfileViewModel(this.getActivity().getApplication());
+        profileData = profileViewModel.readProfile(this.getActivity());
+
         updateGoalsButton = view.findViewById(R.id.update_goals_button);
         fitnessGoalsText = view.findViewById(R.id.fitness_goals_text);
 
@@ -56,10 +65,17 @@ public class DashboardFitnessGoalsFragment extends Fragment {
         updateGoalsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FitnessGoalsFragment fitnessGoalsFragment = new FitnessGoalsFragment();
-                FragmentTransaction fTrans = getParentFragmentManager().beginTransaction();
-                fTrans.replace(R.id.fl_frag_dashboard, fitnessGoalsFragment);
-                fTrans.commit();
+                if(profileData.weight != null){
+                    FitnessGoalsFragment fitnessGoalsFragment = new FitnessGoalsFragment();
+                    FragmentTransaction fTrans = getParentFragmentManager().beginTransaction();
+                    fTrans.replace(R.id.fl_frag_dashboard, fitnessGoalsFragment);
+                    fTrans.commit();
+                }
+
+                else {
+                    Toast.makeText(getActivity(), "Create a profile first!", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
