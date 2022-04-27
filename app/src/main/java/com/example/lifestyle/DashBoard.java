@@ -16,7 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class DashBoard extends AppCompatActivity {
-
+    //stuff
     public WeatherViewModel weatherViewModel;
 
     @Override
