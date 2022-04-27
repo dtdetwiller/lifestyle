@@ -27,7 +27,7 @@ import android.widget.TextView;
 import com.example.lifestyle.dashboardfragments.DashboardMainFragment;
 import com.example.lifestyle.homefragments.HomeFragment;
 import com.example.lifestyle.model.WeatherViewModel;
-import com.example.lifestyle.profilefragments.ProfileFragement;
+//import com.example.lifestyle.profilefragments.ProfileFragement;
 import com.example.lifestyle.profilefragments.ProfilePageFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
