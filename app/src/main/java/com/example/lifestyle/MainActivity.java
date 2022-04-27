@@ -8,8 +8,13 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,6 +22,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.lifestyle.dashboardfragments.DashboardMainFragment;
 import com.example.lifestyle.homefragments.HomeFragment;
@@ -30,6 +36,10 @@ import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
+    private SensorManager mSensorManager;
+    private TextView stepText;
+    private Sensor mStepCounter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -39,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        stepText = (TextView) findViewById(R.id.step_count);
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mStepCounter = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
 
         // Initialize and Assign Variable
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -80,6 +93,34 @@ public class MainActivity extends AppCompatActivity {
         HomeFragment HomeFragment = new HomeFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragment_container, HomeFragment).commit();
+    }
+
+    private SensorEventListener mListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent sensorEvent) {
+            stepText.setText("" + String.valueOf(sensorEvent.values[0]));
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int i) {
+
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mStepCounter!=null){
+            mSensorManager.registerListener(mListener,mStepCounter,SensorManager.SENSOR_DELAY_NORMAL);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(mStepCounter!=null){
+            mSensorManager.unregisterListener(mListener);
+        }
     }
 
 }
