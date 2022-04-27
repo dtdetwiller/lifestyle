@@ -2,14 +2,14 @@
 
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".dashboardfragments.FitnessGoalsFragment">
 
     <TextView
@@ -188,12 +188,41 @@
             android:background="@android:drawable/btn_dropdown"
             android:spinnerMode="dropdown" />
 
-        <Button
-            android:id="@+id/fg_submit_button"
+<!--        <Button-->
+<!--            android:id="@+id/fg_submit_button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/fg_pounds_per_week_spinner"-->
+<!--            android:text="Submit" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/fg_back_button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignRight="@+id/fg_submit_button"-->
+<!--            android:text="Back" />-->
+
+        <LinearLayout
+            android:id="@+id/button_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/fg_pounds_per_week_spinner"
-            android:text="Submit" />
+            android:orientation="horizontal" >
+            <Button
+                android:id="@+id/fg_submit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="Submit" />
+
+            <Button
+                android:id="@+id/fg_back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_alignRight="@+id/fg_submit_button"
+                android:text="Back" />
+        </LinearLayout>
 
     </RelativeLayout>
 </RelativeLayout>

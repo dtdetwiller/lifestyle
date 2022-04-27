@@ -20,6 +20,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight=".5"
         android:text="Dashboard"
+        android:textStyle="bold|italic"
         android:textSize="40dp" />
 
 

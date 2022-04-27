@@ -31,6 +31,7 @@ import java.util.Scanner;
 public class FitnessGoalsFragment extends Fragment {
 
     private Button submitButton;
+    private Button backButton;
     private Spinner genderSpinner;
     private Spinner feetSpinner;
     private Spinner inchesSpinner;
@@ -107,6 +108,15 @@ public class FitnessGoalsFragment extends Fragment {
                 //SaveFile();
                 profileViewModel.writeProfile(profileData);
 
+                BackToDashboard();
+            }
+        });
+
+        backButton = view.findViewById(R.id.fg_back_button);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 BackToDashboard();
             }
         });

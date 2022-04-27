@@ -43,10 +43,6 @@ public class Repository {
         AppDatabase db = AppDatabase.getDatabase(application);
         weatherDao = db.weatherDao();
         profileDao = db.profileDao();
-
-        if (userLocation != null){
-            loadWeatherData();
-        }
     }
 
     public static synchronized Repository getInstance(Application application){
@@ -59,19 +55,26 @@ public class Repository {
 
     public void setLocation(String location){
         userLocation = location;
-        loadData();
+        loadWeatherData();
         insertWeatherData();
     }
 
-    private void loadData()
-    {
-        new FetchWeatherTask().execute(userLocation);
-    }
-
-    public void updateWeatherData(){
+    public boolean updateWeatherData(){
         if (userLocation != null){
             loadWeatherData();
+
+            if (jsonWeatherString != null){
+                insertWeatherData();
+            }
+
+            else{
+                return false;
+            }
+
+            return true;
         }
+
+        return false;
     }
 
     private void insertWeatherData(){
@@ -186,7 +189,14 @@ public class Repository {
                         jsonWeatherString = jsonWeatherData;
                         postWeatherToMainThread(jsonWeatherData);
                     }
+
+                    else{
+
+                    }
+
+
                 } catch (Exception e) {
+
                     e.printStackTrace();
                 }
             });

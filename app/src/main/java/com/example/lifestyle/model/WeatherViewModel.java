@@ -26,4 +26,8 @@ public class WeatherViewModel extends AndroidViewModel {
     public LiveData<WeatherData> getWeatherData(){
         return jsonWeatherData;
     }
+
+    public boolean updateWeatherData(){
+        return repository.updateWeatherData();
+    }
 }

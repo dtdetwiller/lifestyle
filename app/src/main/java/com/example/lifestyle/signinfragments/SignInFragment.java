@@ -6,8 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -17,15 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.lifestyle.DashBoard;
 import com.example.lifestyle.MainActivity;
-import com.example.lifestyle.Profile;
 import com.example.lifestyle.R;
-import com.example.lifestyle.dashboardfragments.weather.DisplayWeatherFragment;
-import com.example.lifestyle.homefragments.HomeFragment;
 import com.example.lifestyle.model.ProfileViewModel;
 import com.example.lifestyle.profilefragments.ProfileData;
-import com.example.lifestyle.profilefragments.ProfileFragement;
 
 import java.io.File;
 import java.io.FileOutputStream;
