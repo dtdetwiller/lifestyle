@@ -5,6 +5,8 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.RawQuery;
+import androidx.sqlite.db.SupportSQLiteQuery;
 
 import com.example.lifestyle.dashboardfragments.weather.WeatherData;
 import com.example.lifestyle.dashboardfragments.weather.WeatherTable;
@@ -19,4 +21,7 @@ public interface WeatherDao {
 
     @Query("SELECT * from weather_table ORDER BY weatherdata ASC")
     LiveData<WeatherTable> getAll();
+
+    @RawQuery
+    int checkpoint(SupportSQLiteQuery supportSQLiteQuery);
 }

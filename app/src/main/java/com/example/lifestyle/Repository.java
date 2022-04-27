@@ -7,8 +7,8 @@ import android.os.Looper;
 import android.util.Log;
 
 import androidx.core.os.HandlerCompat;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.sqlite.db.SimpleSQLiteQuery;
 
 // class imports
 import com.example.lifestyle.dashboardfragments.weather.JSONWeatherUtility;
@@ -28,7 +28,6 @@ import org.json.JSONException;
 import java.io.File;
 import java.net.URL;
 import java.util.Scanner;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -38,14 +37,6 @@ import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.storage.options.StorageDownloadFileOptions;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
-
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 
 public class Repository {
     private static Repository repoInstance;
@@ -85,54 +76,36 @@ public class Repository {
     }
 
     // upload file to AWS server to back it up
-    private void uploadFile(){
+    private void uploadDBFile(){
         String dataFileString = String.valueOf(lifestyleApplication.getApplicationContext().getDatabasePath("app.db"));
         String dataSHMFileString = String.valueOf(lifestyleApplication.getApplicationContext().getDatabasePath("app.db-shm"));
         String dataWALFileString = String.valueOf(lifestyleApplication.getApplicationContext().getDatabasePath("app.db-wal"));
+        profileDao.checkpoint(new SimpleSQLiteQuery("pragma wal_checkpoint(full)"));
+        weatherDao.checkpoint(new SimpleSQLiteQuery("pragma wal_checkpoint(full)"));
 
-        //System.out.println("Data fetched from AWS : " + dataFileString);
-        Log.d("Data fetched" , dataFileString);
-        // turn data into files
-        File weatherdataFile = new File(dataFileString);
-        File profiledataFile = new File(dataFileString);
-//        File dataFileSHM = new File(dataSHMFileString);
-//        File dataFileWAL = new File(dataWALFileString);
+        File awsFile = new File(dataFileString);
 
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(weatherdataFile));
-            writer.write(jsonWeatherString);
-            writer.close();
+
+            Amplify.Storage.uploadFile(
+                    "DatabaseKey",
+                    awsFile,
+                    result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+                    storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+            );
+
         } catch (Exception exception) {
             Log.e("MyAmplifyApp", "Upload failed", exception);
         }
 
-        Amplify.Storage.uploadFile(
-                "WeatherKey",
-                weatherdataFile,
-                result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
-                storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
-        );
 
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(profiledataFile));
-            writer.append(profileData.getProfileJSON().toString());
-            writer.close();
-        } catch (Exception exception) {
-            Log.e("MyAmplifyApp", "Upload failed", exception);
-        }
 
-        Amplify.Storage.uploadFile(
-                "ProfileKey",
-                profiledataFile,
-                result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
-                storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
-        );
     }
 
-    private void downloadWeatherFile(){
+    public void downloadDBFile(){
         Amplify.Storage.downloadFile(
-                "WeatherKey",
-                new File(lifestyleApplication.getApplicationContext().getFilesDir() + "/download.txt"),
+                "DatabaseKey",
+                new File(String.valueOf(lifestyleApplication.getApplicationContext().getDatabasePath("app.db"))),
                 StorageDownloadFileOptions.defaultInstance(),
                 progress -> Log.i("MyAmplifyApp", "Fraction completed: " + progress.getFractionCompleted()),
                 result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
@@ -140,16 +113,6 @@ public class Repository {
         );
     }
 
-    private void downloadProfileFile(){
-        Amplify.Storage.downloadFile(
-                "ProfileKey",
-                new File(lifestyleApplication.getApplicationContext().getFilesDir() + "/download.txt"),
-                StorageDownloadFileOptions.defaultInstance(),
-                progress -> Log.i("MyAmplifyApp", "Fraction completed: " + progress.getFractionCompleted()),
-                result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
-                error -> Log.e("MyAmplifyApp",  "Download Failure", error)
-        );
-    }
 
     public static synchronized Repository getInstance(Application application){
         if (repoInstance == null){
@@ -188,7 +151,7 @@ public class Repository {
             WeatherTable weatherTable = new WeatherTableBuilder().setLocation(userLocation).setWeatherJson(jsonWeatherString).createWeatherTable();
             AppDatabase.databaseExecutor.execute(() -> {
                 weatherDao.insert(weatherTable);
-                uploadFile();
+                uploadDBFile();
             });
         }
     }
@@ -197,7 +160,7 @@ public class Repository {
         ProfileTable profileTable = new ProfileTable(profile.username, profile);
         AppDatabase.databaseExecutor.execute(() -> {
             profileDao.insert(profileTable);
-            uploadFile();
+            uploadDBFile();
         });
 
     }

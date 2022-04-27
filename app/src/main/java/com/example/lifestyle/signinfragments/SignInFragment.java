@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.lifestyle.MainActivity;
 import com.example.lifestyle.R;
+import com.example.lifestyle.Repository;
 import com.example.lifestyle.model.ProfileViewModel;
 import com.example.lifestyle.profilefragments.ProfileData;
 
@@ -32,12 +33,14 @@ public class SignInFragment extends Fragment {
     private EditText username_view;
     private String username;
     private ProfileViewModel profileViewModel;
-
+    private Repository repository;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
+        repository = Repository.getInstance(getActivity().getApplication());
+        repository.downloadDBFile();
     }
 
     @Override
