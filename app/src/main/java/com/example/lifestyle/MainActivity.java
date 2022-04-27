@@ -35,7 +35,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
-
+    //stuff
     private SensorManager mSensorManager;
     private TextView stepText;
     private Sensor mStepCounter;
