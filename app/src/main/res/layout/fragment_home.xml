@@ -60,6 +60,26 @@
         android:text="(Eating less than 1200cal/day is dangerous)"
         android:textColor="@android:color/holo_red_dark" />
 
+    <TextView
+        android:id="@+id/step_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/warning_calories"
+        android:layout_marginTop="15dp"
+        android:text="Steps: "
+        android:textSize="25dp" />
+
+    <TextView
+        android:id="@+id/step_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/warning_calories"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@id/step_text"
+        android:paddingHorizontal="10dp"
+        android:text="0"
+        android:textSize="25dp" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
         android:layout_width="96dp"
