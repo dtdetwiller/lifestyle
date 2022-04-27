@@ -4,24 +4,27 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+// class imports
 import com.example.lifestyle.dashboardfragments.weather.JSONWeatherUtility;
 import com.example.lifestyle.dashboardfragments.weather.NetworkUtility;
 import com.example.lifestyle.dashboardfragments.weather.WeatherDao;
 import com.example.lifestyle.dashboardfragments.weather.WeatherData;
 import com.example.lifestyle.dashboardfragments.weather.WeatherTable;
 import com.example.lifestyle.dashboardfragments.weather.WeatherTableBuilder;
-import com.example.lifestyle.model.ProfileViewModel;
 import com.example.lifestyle.profilefragments.ProfileDao;
 import com.example.lifestyle.profilefragments.ProfileTable;
 import com.example.lifestyle.profilefragments.ProfileData;
 
+// json imports
 import org.json.JSONException;
 
+// java imports
 import java.io.File;
 import java.net.URL;
 import java.util.Scanner;
@@ -29,20 +32,123 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+// AWS Server imports
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.storage.options.StorageDownloadFileOptions;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+
 public class Repository {
     private static Repository repoInstance;
     private final MutableLiveData<WeatherData> liveWeatherData = new MutableLiveData<WeatherData>();
     private String userLocation;
     private String jsonWeatherString;
-    private WeatherDao weatherDao;
 
+    private WeatherDao weatherDao;
     private ProfileDao profileDao;
     private ProfileData profileData;
+
+    Application lifestyleApplication;
+
 
     private Repository(Application application){
         AppDatabase db = AppDatabase.getDatabase(application);
         weatherDao = db.weatherDao();
         profileDao = db.profileDao();
+        lifestyleApplication = application;
+
+
+        //AWS stuff
+        try {
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSS3StoragePlugin());
+            Amplify.configure(application.getApplicationContext());
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+
+//            Amplify.Auth.signInWithWebUI(
+//                    this,
+//                    result -> Log.i("AuthQuickStart", result.toString()),
+//                    error -> Log.e("AuthQuickStart", error.toString())
+//            );
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
+    }
+
+    // upload file to AWS server to back it up
+    private void uploadFile(){
+        String dataFileString = String.valueOf(lifestyleApplication.getApplicationContext().getDatabasePath("app.db"));
+        String dataSHMFileString = String.valueOf(lifestyleApplication.getApplicationContext().getDatabasePath("app.db-shm"));
+        String dataWALFileString = String.valueOf(lifestyleApplication.getApplicationContext().getDatabasePath("app.db-wal"));
+
+        //System.out.println("Data fetched from AWS : " + dataFileString);
+        Log.d("Data fetched" , dataFileString);
+        // turn data into files
+        File weatherdataFile = new File(dataFileString);
+        File profiledataFile = new File(dataFileString);
+//        File dataFileSHM = new File(dataSHMFileString);
+//        File dataFileWAL = new File(dataWALFileString);
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(weatherdataFile));
+            writer.write(jsonWeatherString);
+            writer.close();
+        } catch (Exception exception) {
+            Log.e("MyAmplifyApp", "Upload failed", exception);
+        }
+
+        Amplify.Storage.uploadFile(
+                "WeatherKey",
+                weatherdataFile,
+                result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+                storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+        );
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(profiledataFile));
+            writer.append(profileData.getProfileJSON().toString());
+            writer.close();
+        } catch (Exception exception) {
+            Log.e("MyAmplifyApp", "Upload failed", exception);
+        }
+
+        Amplify.Storage.uploadFile(
+                "ProfileKey",
+                profiledataFile,
+                result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+                storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+        );
+    }
+
+    private void downloadWeatherFile(){
+        Amplify.Storage.downloadFile(
+                "WeatherKey",
+                new File(lifestyleApplication.getApplicationContext().getFilesDir() + "/download.txt"),
+                StorageDownloadFileOptions.defaultInstance(),
+                progress -> Log.i("MyAmplifyApp", "Fraction completed: " + progress.getFractionCompleted()),
+                result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
+                error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+        );
+    }
+
+    private void downloadProfileFile(){
+        Amplify.Storage.downloadFile(
+                "ProfileKey",
+                new File(lifestyleApplication.getApplicationContext().getFilesDir() + "/download.txt"),
+                StorageDownloadFileOptions.defaultInstance(),
+                progress -> Log.i("MyAmplifyApp", "Fraction completed: " + progress.getFractionCompleted()),
+                result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
+                error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+        );
     }
 
     public static synchronized Repository getInstance(Application application){
@@ -82,6 +188,7 @@ public class Repository {
             WeatherTable weatherTable = new WeatherTableBuilder().setLocation(userLocation).setWeatherJson(jsonWeatherString).createWeatherTable();
             AppDatabase.databaseExecutor.execute(() -> {
                 weatherDao.insert(weatherTable);
+                uploadFile();
             });
         }
     }
@@ -90,6 +197,7 @@ public class Repository {
         ProfileTable profileTable = new ProfileTable(profile.username, profile);
         AppDatabase.databaseExecutor.execute(() -> {
             profileDao.insert(profileTable);
+            uploadFile();
         });
 
     }
